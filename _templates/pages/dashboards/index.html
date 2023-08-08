@@ -4,8 +4,6 @@ context.update({
     'layout': KTTheme.setLayout('default.html', context),
 })
 -->
-
-
 {% extends layout %}
 
 {% load i18n %}
@@ -15,32 +13,28 @@ context.update({
 {% block content %}
 
 <!--begin::Row-->
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1">
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-2 " >
+        <span>
+            Summary text
+        </span>
+    </div>
+
+</div>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1">
     <!--begin::Col-->
-    
-    <!--end::Col-->
-    
-    <!--end::Col-->
-    
-    <!--end::Col-->
-</div>
-<!--end::Row-->
+    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-3 " >
+        {% include 'partials/widgets/cards/_widget-200.html' %}
 
-<!--begin::Row-->
-<div class="row gx-5 gx-xl-10">
-   
-</div>
-<!--end::Row-->
-
-<!--begin::Row-->
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-   
+    </div>
     <!--end::Col-->
-</div>
-<!--end::Row-->
+    <!--begin::Col-->
+    <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-3 " >
+        {% include 'partials/widgets/cards/_widget-1.html' %}
 
-<!--begin::Row-->
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+        
+    </div>
+    <!--end::Col-->
     <!--begin::Col-->
     
     <!--end::Col-->
@@ -48,11 +42,5 @@ context.update({
 <!--end::Row-->
 
 <!--begin::Row-->
-<div class="row gx-5 gx-xl-10">
-    <!--begin::Col-->
-   
-    <!--end::Col-->
-</div>
-<!--end::Row-->
 
 {% endblock content %}

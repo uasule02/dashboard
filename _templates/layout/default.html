@@ -17,12 +17,18 @@
 				<!--begin::Content wrapper-->
 				<div class="d-flex flex-column flex-column-fluid">
 					<!--tool bar-->
+					<!--tool bar-->
+					<div class="separator separator-dashed mx-5 "></div>
+
+					{% include './partials/sidebar-layout/_tool2.html' %}
+
+					<div class="separator separator-dashed mx-5 "></div>
 
 
 					<!--begin::Content-->
 					<div id="kt_app_content" class="app-content flex-column-fluid">
 						<!--begin::Content container-->
-						<div id="kt_app_content_container" class="app-container container-fluid">
+						<div id="kt_app_content_container" class="app-container container-fluid my-5">
 							{% block content %}
 							{% endblock content %}
 						</div>

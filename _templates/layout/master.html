@@ -75,7 +75,19 @@
         {% endfor %}
         <!--end::Custom Javascript-->
         {% endblock javascript %}
-
+        <script>
+            function showTabContent(tabId) {
+                // Hide all tab content divs in sidebar_menu.html
+                const tabContentDivs = parent.document.querySelectorAll('.tab-content .tab-pane');
+                for (let i = 0; i < tabContentDivs.length; i++) {
+                    tabContentDivs[i].classList.remove('active');
+                }
+        
+                // Show the selected tab content div in sidebar_menu.html
+                const selectedTabContentDiv = parent.document.getElementById(tabId);
+                selectedTabContentDiv.classList.add('active');
+            }
+        </script>
     </body>
     <!--end::Body-->
 </html>

@@ -1,17 +1,17 @@
 <!--begin:Dashboards menu-->
 <div class="menu-state-bg menu-extended overflow-hidden overflow-lg-visible" data-kt-menu-dismiss="true">
-	<!--begin:Row-->
-	<div class="row">
-		<!--begin:Col-->
-		<div class="col-lg-12 mb-3 mb-lg-0 py-3 px-3 py-lg-6 px-lg-6">
-			<!--begin:Row-->
-			<div class="row">
+    <!--begin:Row-->
+    <div class="row">
+        <!--begin:Col-->
+        <div class="col-lg-12 mb-3 mb-lg-0 py-3 px-3 py-lg-6 px-lg-6">
+            <!--begin:Row-->
+            <div class="row">
 				<!--begin:Col-->
 				<div class="col-lg-6 mb-3">
 					<!--begin:Menu item-->
 					<div class="menu-item p-0 m-0">
 						<!--begin:Menu link-->
-						<a href="#" class="menu-link active">
+						<a href="{% url 'dashboards:threews' %}" class="menu-link" onclick="showTabContent('kt_app_header1'); return false;">
 							<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'element-11' 'text-primary fs-1' %}</span>
 							<span class="d-flex flex-column">
 								<span class="fs-6 fw-bold text-gray-800">3ws</span>
@@ -31,7 +31,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item p-0 m-0">
 						<!--begin:Menu link-->
-						<a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header2'); return false;">
 							<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'abstract-44' 'text-info fs-1' %}</span>
 							<span class="d-flex flex-column">
 								<span class="fs-6 fw-bold text-gray-800">Humaniterian dashboard </span>
@@ -48,7 +48,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item p-0 m-0">
 						<!--begin:Menu link-->
-						<a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header3'); return false;">
 							<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'color-swatch' 'text-success fs-1' %}</span>
 							<span class="d-flex flex-column">
 								<span class="fs-6 fw-bold text-gray-800">Funding overview -	</span>
@@ -65,7 +65,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item p-0 m-0">
 						<!--begin:Menu link-->
-						<a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header4'); return false;">
 							<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'chart-simple' 'text-dark fs-1' %}</span>
 							<span class="d-flex flex-column">
 								<span class="fs-6 fw-bold text-gray-800">Risk Analysis</span>
@@ -80,7 +80,7 @@
                     <!--begin:Menu item-->
                     <div class="menu-item p-0 m-0">
                         <!--begin:Menu link-->
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header5'); return false;">
                             <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'abstract-42' 'text-danger fs-1' %}</span>
                             <span class="d-flex flex-column">
                                 <span class="fs-6 fw-bold text-gray-800">Gap Analysis</span>
@@ -95,7 +95,7 @@
                     <!--begin:Menu item-->
                     <div class="menu-item p-0 m-0">
                         <!--begin:Menu link-->
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header6'); return false;">
                             <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'switch' 'text-warning fs-1' %}</span>
                             <span class="d-flex flex-column">
                                 <span class="fs-6 fw-bold text-gray-800">HNO</span>
@@ -109,7 +109,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item p-0 m-0">
 						<!--begin:Menu link-->
-						<a href="#" class="menu-link">
+                        <a href="#" class="menu-link " onclick="showTabContent('kt_app_header7'); return false;">
 							<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">{% getIcon 'call' 'text-primary fs-1' %}</span>
 							<span class="d-flex flex-column">
 								<span class="fs-6 fw-bold text-gray-800">HRP</span>
@@ -125,15 +125,12 @@
 					<!--end:Row-->
 			
 		</div>
-		<!--end:Col-->
-
-		<!-- explore more removed-->
-
-		<!--begin:Col-->
-		<!-- More dashboard removed-->
-
-		<!--end:Col-->
-	</div>
-	<!--end:Row-->
+            <!--end:Row-->
+        </div>
+        <!--end:Col-->
+    </div>
+    <!--end:Row-->
 </div>
 <!--end:Dashboards menu-->
+<!--begin:Dashboards menu-->
+<!-- Your existing code for dashboard menu here -->

@@ -41,3 +41,18 @@ class DashboardsView(TemplateView):
         KTTheme.addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock'])
 
         return context
+    
+
+class Three3ws(TemplateView):
+    template_name = 'pages/dashboards/3ws.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add your additional context data here if needed
+        context = KTLayout.init(context)
+
+        # Include vendors and javascript files for dashboard widgets
+        KTTheme.addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock'])
+
+        return context

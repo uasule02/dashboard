@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include('dashboards.urls')),
 
     # Auth urls
-    path('', include('auth.urls')),
+    path('login/', include('auth.urls')),
 ]
 
 handler404 = SystemView.as_view(template_name = 'pages/system/not-found.html', status=404)
