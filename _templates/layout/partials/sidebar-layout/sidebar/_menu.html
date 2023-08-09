@@ -1,7 +1,7 @@
 <!--begin::sidebar menu-->
 <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
     <!--begin::Menu wrapper-->
-    <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+    <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-2" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
         <!--begin::Menu-->
         <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="true">
             <!--begin:Menu item-->
@@ -10,235 +10,233 @@
                 <span class="menu-link">
                     <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
                     <span class="menu-title">Dashboards</span>
-                    <span class="menu-arrow"></span>
                 </span>
+			</div>
                 <!--end:Menu link-->
                 <!--begin:Menu sub-->
-                <div class="tab-content py-4 py-lg-8 px-lg-7">
-					<!--begin:Tab pane-->
-					<div class="tab-pane w-lg-600px" id="kt_app_header1">
+		</div>
 
-                        <a href="#" class="menu-link ">
-							<span class="menu-icon">
-								{% getIcon 'call' 'fs-2' %}
-							</span>
-							<span class="menu-title">Upload document</span>
-						</a>
+		<div class="tab-content py-4 py-lg-8 px-lg-7 menu-sub-indention px-3">
+			<!--begin:Tab pane-->
+			<div class="tab-pane w-lg-600px" id="kt_app_header1">
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">My files</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-plus' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > Upload data </a>
+					</span>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Check status</span>
-						</a>
-					</div>
+				<br>
+				<br>
 
-					<div class="tab-pane w-lg-600px" id="kt_app_header2">
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'file' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">My files</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">H attribute 1</span>
-						</a>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">H attribute 2</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'call' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">Check status</span>
+					</a>
+                </span>
+			</div>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">H attribute 3</span>
-						</a>
+			<div class="tab-pane w-lg-600px" id="kt_app_header2">
 
-					</div>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > H attribute 1</a>
+					</span>
+                </span>
 
-					<div class="tab-pane w-lg-600px" id="kt_app_header3">
-						<h3 style="color: white;">Funding Overview</h3>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">FO attribute1</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">H attribute 2</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">FO attribute 2</span>
-						</a>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">FO attribute 3</span>
-						</a>
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">FO attribute 4</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">H attribute 3</span>
+					</a>
+                </span>
 
-					</div>
-					<div class="tab-pane w-lg-600px" id="kt_app_header4">
-						<h3 style="color: white;">Risk Analysis</h3>
+			</div>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">RA attribute 1</span>
-						</a>
+			<div class="tab-pane w-lg-600px" id="kt_app_header3">
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">RA attribute 2</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > FO attribute 1</a>
+					</span>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">RA attribute 3</span>
-						</a>
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">RA attribute 4</span>
-						</a>
+				<br>
+				<br>
 
-					</div>
-					<div class="tab-pane w-lg-600px" id="kt_app_header5">
-						<h3 style="color: white;">Gap Analysis</h3>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">FO attribute 2</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">GA attribute 1</span>
-						</a>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">GA attribute 2</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">FO attribute 3</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">GA attribute 3</span>
-						</a>
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">GA attribute 4</span>
-						</a>
+			</div>
 
-					</div>
-					<div class="tab-pane w-lg-600px" id="kt_app_header6">
-						<h3 style="color: white;">HNO </h3>
+			<div class="tab-pane w-lg-600px" id="kt_app_header4">
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > RA attribute 1</a>
+					</span>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HNO attribute 1</span>
-						</a>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HNO attribute 2</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">RA attribute 2</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HNO attribute 3</span>
-						</a>
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HNO attribute 4</span>
-						</a>
+				<br>
+				<br>
 
-					</div>
-					<div class="tab-pane w-lg-600px" id="kt_app_header7">
-						<h3 style="color: white;">HRP </h3>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">RA attribute 3</span>
+					</a>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HRP attribute1</span>
-						</a>
+			</div>
+			<div class="tab-pane w-lg-600px" id="kt_app_header5">
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > GA attribute 1</a>
+					</span>
+                </span>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HRP attribute 2</span>
-						</a>
+				<br>
+				<br>
 
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HRP attribute 3</span>
-						</a>
-						<a class="menu-link" href="#">
-							<span class="menu-icon">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">HRP attribute 4</span>
-						</a>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">GA attribute 2</span>
+					</a>
+                </span>
 
-					</div>					<!--end:Tab pane-->
-					<!--begin:Tab pane-->
-					<div class="tab-pane w-lg-1000px" id="kt_app_header_menu_pages_authentication">
-					</div>
-					<!--end:Tab pane-->
-					<!--begin:Tab pane-->
-					<div class="tab-pane w-lg-1000px" id="kt_app_header_menu_pages_utilities">
-					</div>
-					<!--end:Tab pane-->
-					<!--begin:Tab pane-->
-					<div class="tab-pane w-lg-500px" id="kt_app_header_menu_pages_widgets">
-					</div>
-					<!--end:Tab pane-->
-				</div><!--end:Menu sub-->
+				<br>
+				<br>
 
-                 </div>
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">GA attribute 3</span>
+					</a>
+                </span>
+			</div>
+			<div class="tab-pane w-lg-600px" id="kt_app_header6">
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > HNO attribute 1</a>
+					</span>
+                </span>
+
+				<br>
+				<br>
+
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">HNO attribute 2</span>
+					</a>
+                </span>
+
+				<br>
+				<br>
+
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">HNO attribute 3</span>
+					</a>
+                </span>
+
+			</div>
+			<div class="tab-pane w-lg-600px" id="kt_app_header7">
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					
+                    <span class="menu-title mx-3">
+						<a href="#" > HRP attribute 1</a>
+					</span>
+                </span>
+
+				<br>
+				<br>
+
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">HRP attribute 2</span>
+					</a>
+                </span>
+
+				<br>
+				<br>
+
+				<span class="menu-link">
+                    <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+					<a href="#" >
+                    <span class="menu-title  mx-3">HRP attribute 3</span>
+					</a>
+                </span>
+			</div>					<!--end:Tab pane-->
+			
+		</div>
+
             <!--end:Menu item-->
             <!--begin:Menu item-->
             <!--end:Menu item-->
-        </div>
         <!--end::Menu-->
     </div>
     <!--end::Menu wrapper-->
