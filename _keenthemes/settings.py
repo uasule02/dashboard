@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Keenthemes Apps
     'dashboards.apps.DashboardsConfig',
     'auth.apps.AuthConfig',
+    'threews.apps.ThreewsConfig',
 ]
 
 MIDDLEWARE = [
