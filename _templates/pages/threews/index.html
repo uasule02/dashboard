@@ -15,7 +15,12 @@ context.update({
 {% load static %}
 
 <!--begin::Row-->
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1">
+<script>
+    window.onload = function() {
+        showTabContent('kt_app_header1');
+    };
+</script>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1" >
     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 " >
         <span>
             In the second quarter of 2023, 123 partners from the Humanitarian Response Plan provided humanitarian assistance across 61 Local
@@ -28,10 +33,11 @@ context.update({
 <div class="row g-5 g-xl-12 mb-5 mb-xl-12"id="kt_app_page1">
     <!--begin::Col-->
     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 " >
-        <div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1">
+        <div class="row g-5 g-xl-12 mb-5 mb-xl-12 mb-xxl-12"id="kt_app_page1" >
             <div class="image-container">
               {% for map_path in map_paths %}
-              <img src="{{ map_path }}" alt="Map Image" class="img-fluid" style="width: 100%;">              {% endfor %}
+              <img src="{{ map_path }}" alt="Map Image" class="img-fluid" style="width: 100%;">              
+              {% endfor %}
             </div>
         </div>    
     </div>

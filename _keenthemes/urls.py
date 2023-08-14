@@ -30,6 +30,20 @@ urlpatterns = [
     #threews
     path('', include('threews.urls')),
 
+    #humaniterian
+    path('', include('humaniterian.urls')),
+
+    path('', include('funding.urls')),
+    path('', include('hno.urls')),
+    path('', include('risk.urls')),
+    path('', include('hrp.urls')),
+    path('', include('gap.urls')),
+
+
+
+
+
+
 ]
 
 handler404 = SystemView.as_view(template_name = 'pages/system/not-found.html', status=404)

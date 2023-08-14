@@ -43,6 +43,14 @@ INSTALLED_APPS = [
     'dashboards.apps.DashboardsConfig',
     'auth.apps.AuthConfig',
     'threews.apps.ThreewsConfig',
+    'humaniterian.apps.HumaniterianConfig',
+    'funding.apps.FundingConfig',
+    'gap.apps.GapConfig',
+    'risk.apps.RiskConfig',
+    'hno.apps.HnoConfig',
+    'hrp.apps.HrpConfig',
+
+
 ]
 
 MIDDLEWARE = [

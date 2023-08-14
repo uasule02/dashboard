@@ -7,4 +7,5 @@ app_name = 'threews'
 urlpatterns = [
     path('', MapView.as_view(template_name = 'pages/threews/index.html'), name='index'),
 
+
 ]
