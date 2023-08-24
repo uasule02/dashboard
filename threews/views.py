@@ -27,6 +27,21 @@ matplotlib.use('Agg')  # Choose an appropriate backend, 'Agg' for non-interactiv
 import matplotlib.pyplot as plt
 
 
+
+class InteractiveMapView(TemplateView):
+    template_name = 'pages/threews/dynamic-map.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add your additional context data here if needed
+        context = KTLayout.init(context)
+
+        
+        
+        return context
+
+
 class MapView(TemplateView):
     template_name = 'pages/threews/index.html'
 
