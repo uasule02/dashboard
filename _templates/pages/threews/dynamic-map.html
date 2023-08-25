@@ -4,6 +4,7 @@ context.update({
     'layout': KTTheme.setLayout('default.html', context),
 })
 -->
+{% extends layout %}
 
 {% load i18n %}
 
@@ -29,26 +30,23 @@ context.update({
     </div>
 
 </div>
-<div class="row g-5 g-xl-12 mb-5 mb-xl-12"id="kt_app_page1">
-    <!--begin::Col-->
-    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 " >
-        <div class="row g-5 g-xl-12 mb-5 mb-xl-12 mb-xxl-12"id="kt_app_page1" >
-            <div class="container">
-                <h1>Interactive Map</h1>
-                <div class="map-container">
-                  {{ map_div | safe }}
-                </div>
-              </div>
-        </div>    
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card mt-4">
+          <div class="card-header">
+            <h3 class="card-title">Interactive Map</h3>
+          </div>
+          <div class="card-body">
+            <!-- Place the Plotly map here -->
+            <div id="map-div">
+              {{ map_div | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!--end::Col-->
-    <!--begin::Col-->
-    <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 " >
-        {% include 'partials/widgets/cards/_widget-1.html' %}
-
-        
-    </div>
-    <!--end::Col-->
+  </div>    <!--end::Col-->
     <!--begin::Col-->
     
     <!--end::Col-->

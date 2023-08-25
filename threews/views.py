@@ -36,6 +36,7 @@ from django.views import View
 class InteractiveMapView(View):
     template_name = 'pages/threews/dynamic-map.html'
 
+
     def get(self, request, *args, **kwargs):
 
         # Add your additional context data here if needed
@@ -96,12 +97,22 @@ class InteractiveMapView(View):
         fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=5)
 
         # Adjust the size of the map frame and hide the color scale
-        fig.update_layout(width=1000, height=500, coloraxis_showscale=False)
+        fig.update_layout(width=1600, height=800, coloraxis_showscale=False)
         fig.update_traces(marker_line=dict(color='Gray', width=0.1))
 
         # Render the map in the template
         context = {'map_div': fig.to_html()}
+
+        # Add KTLayout context data
+        context = KTLayout.init(context)
+
+
         return render(request, self.template_name, context)
+    
+        # Add your additional context data here if needed
+
+        
+        
 
 '''
 class InteractiveMapView(TemplateView):
