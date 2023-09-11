@@ -56,8 +56,6 @@ class InteractiveMapView(View):
         shp2 = gpd.read_file(os.path.join('assets', 'data/nga_adm_osgof_20190417/nga_admbnda_adm2_osgof_20190417.shp'))
         shp2 = shp2[['ADM2_EN', 'geometry']]
 
-        # ...
-
         # Count unique organizations in each LGA for each year
         data_unique_org = all_data.drop_duplicates(subset=['lga', 'organisation', 'year'])
         org_count = data_unique_org.groupby(['lga', 'year']).size().reset_index(name='unique_org_count')
@@ -74,42 +72,42 @@ class InteractiveMapView(View):
         sector_count = data_unique_sector.groupby(['lga', 'year']).size().reset_index(name='unique_project_sector_count')
         sector_count['year'] = sector_count['year'].astype(int)  # Convert 'year' back to integer
 
-        # ...
-
         # Merge the counts with the shapefile
         merge = shp2.merge(org_count, left_on='ADM2_EN', right_on='lga', how='left')
         merge = merge.merge(activity_count, on=['lga', 'year'], how='left')
         merge = merge.merge(sector_count, on=['lga', 'year'], how='left')
 
         # Create an interactive map using Plotly Express with animation based on year
-        fig = px.choropleth(merge, 
-                            geojson=merge['geometry'], 
+        fig = px.choropleth(merge,
+                            geojson=merge['geometry'],
                             locations=merge.index,
                             color='unique_org_count',
                             hover_name='ADM2_EN',
-                            hover_data=['unique_org_count', 'activity_count', 'unique_project_sector_count'], 
-                            animation_frame='year', 
+                            hover_data=['unique_org_count', 'activity_count', 'unique_project_sector_count'],
+                            animation_frame='year',
                             title='Organisations by LGA',
                             labels={'unique_org_count': 'Unique Organisations', 'activity_count': 'Total Activities', 'unique_project_sector_count': 'Project Sectors'},
                             color_continuous_scale='OrRd')
 
         # Set the map boundaries to focus on Adamawa, Borno, and Yobe
-        fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=5)
+        fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=7)
 
         # Adjust the size of the map frame and hide the color scale
-        fig.update_layout(width=1600, height=800, coloraxis_showscale=False)
+        fig.update_layout(
+            autosize=True,  # Automatically adjust the map size
+            margin=dict(l=0, r=0, t=0, b=0),  # Remove margins
+            coloraxis_showscale=False
+        )
         fig.update_traces(marker_line=dict(color='Gray', width=0.1))
 
         # Render the map in the template
         context = {'map_div': fig.to_html()}
-
-        # Add KTLayout context data
         context = KTLayout.init(context)
 
-
-        return render(request, self.template_name, context)
     
         # Add your additional context data here if needed
+        return render(request, self.template_name, context)
+
 
         
         
