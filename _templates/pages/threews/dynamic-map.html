@@ -30,40 +30,62 @@ context.update({
     </div>
 
 </div>
-<div class="container">
-    <div class="row ">
-      <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 ">
-        
-          <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
-              <div class="card-header">
-                <h3 class="card-title">Interactive Map</h3>
-              </div>
-              <div id="map-div">
-              {{ map_div | safe }}
-              </div>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+    
+      <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+        <div class="card-header">
+          <h3 class="card-title">Organistions states map</h3>
+        </div>
+          <div id="map-div">
+          {{ map_div | safe }}
           </div>
-
-      </div>
-      <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 ">
-
-        <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
-          <div class="card-header">
-            <h3 class="card-title">Mini Maps</h3>
-          </div>
-          
       </div>
 
+  </div>
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+      <div class="card-header">
+        <h3 class="card-title">States Heatmap</h3>
       </div>
-
-
+      <div id="plot2-div">
+        {{ plot2_div | safe }}
+        </div>
+      
     </div>
+
+  </div>
+
+
 </div>
     <!--begin::Col-->
     
-    <!--end::Col-->
 <!--end::Row-->
 
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+    
+      <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+        <div class="card-header">
+          <h3 class="card-title">Organisations Activities</h3>
+        </div>
+          <div id="plot-div">
+          {{ plot_div | safe }}
+          </div>
+      </div>
 
+  </div>
+  <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 ">
+
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+      
+    </div>
+
+  </div>
+
+
+</div>
 
 <!--begin::Row-->
 

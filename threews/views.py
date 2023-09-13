@@ -32,6 +32,11 @@ import pandas as pd
 import plotly.express as px
 from django.shortcuts import render
 from django.views import View
+from ipywidgets import interact, widgets
+import plotly.express as px
+import plotly.figure_factory as ff
+
+    
 
 class InteractiveMapView(View):
     template_name = 'pages/threews/dynamic-map.html'
@@ -90,19 +95,122 @@ class InteractiveMapView(View):
                             color_continuous_scale='OrRd')
 
         # Set the map boundaries to focus on Adamawa, Borno, and Yobe
-        fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=7)
+        fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=9)
 
         # Adjust the size of the map frame and hide the color scale
-        fig.update_layout(
+        '''fig.update_layout(
             autosize=True,  # Automatically adjust the map size
-            margin=dict(l=0, r=0, t=0, b=0),  # Remove margins
+            margin=dict(l=0, r=0, t=10, b=0),  # Remove margins
             coloraxis_showscale=False
-        )
+        )'''
         fig.update_traces(marker_line=dict(color='Gray', width=0.1))
 
         # Render the map in the template
         context = {'map_div': fig.to_html()}
+
+
+        #bubble chart
+        '''
+        file_path = os.path.join('assets', 'data/data_Graphs/3Ws_bubblechart.csv')
+        df = pd.read_csv(file_path)
+
+        # Replace NaN values in the 'activities' column with 0
+        df['activities'] = df['activities'].fillna(0)
+
+        # Group by 'state', 'org_acronym', and 'lga', concatenate 'project_sector', and sum the 'activities'
+        df_grouped = df.groupby(['state', 'org_acronym', 'lga'], as_index=False).agg({'activities': 'sum', 'project_sector': lambda x: ', '.join(x.unique())})
+
+        # Create a bubble chart using Plotly Express
+        fig = px.scatter(df_grouped, x='activities', y='lga',
+                         size='activities',  # Using activities column to define the size of the bubbles
+                         color='state',
+                         hover_name='org_acronym',
+                         hover_data=['state', 'project_sector'],
+                         title='Activities by LGA',
+                         labels={'activities': 'Activities', 'lga': 'LGA'},
+                         template='plotly_white',
+                         size_max=50)  # Increase this value to make the bubbles larger
+
+        # Define a dropdown menu for filtering by status
+        # Note: Since the status column is not included in the df_grouped DataFrame,
+        # you may need to modify this part to filter by status as per your requirements
+
+        # Update layout with dropdown menu
+        fig.update_layout(
+            updatemenus=[
+                {
+                    'buttons': [
+                        {'args': [{}], 'label': 'All Statuses', 'method': 'update'},
+                        # Add buttons for 'Ongoing' and 'Completed' as needed
+                    ],
+                    'direction': 'down',
+                    'showactive': True,
+                    'x': 1.0,
+                    'xanchor': 'left',
+                    'y': 1.15,
+                    'yanchor': 'top'
+                }
+            ]
+        )
+
+        # Convert the Plotly figure to HTML
+        plot_div = fig.to_html()
+
+        # Add the Plotly plot to the context
+        context['plot_div'] = plot_div
+        '''
+
+        #heatmap
+        file_path = os.path.join('assets', 'data/data_Graphs/3Ws_heatmap.csv')
+        df = pd.read_csv(file_path)
+
+        # Invert the state labels
+        df = df.iloc[::-1]
+
+        # Set the 'States' column as the index
+        df.set_index('States', inplace=True)
+
+        # Convert the DataFrame to numeric values
+        df = df.apply(pd.to_numeric, errors='coerce')
+
+        # Convert the values to integer for annotation without decimal points
+        annotation_text = df.values.astype(int).astype(str)
+
+        # Create a heatmap using Plotly's figure factory
+        fig = ff.create_annotated_heatmap(z=df.values,
+                                          x=df.columns.tolist(),
+                                          y=df.index.tolist(),
+                                          colorscale='Blues',
+                                          annotation_text=annotation_text,
+                                          showscale=False)
+
+        # Update layout to move x-axis labels to the top
+        fig.update_layout(xaxis=dict(side='top'),
+                          title='Heatmap of Sectors by States',
+                          autosize=False,
+                          width=800,
+                          height=400,
+                          margin=dict(l=100, r=100, b=100, t=100))
+
+        # Update annotations to make them more visible
+        for i in range(len(fig.layout.annotations)):
+            fig.layout.annotations[i].font.size = 10
+            # Set font color based on cell color (lighter color for darker cells)
+            if float(fig.layout.annotations[i].text) > df.values.max() / 2:
+                fig.layout.annotations[i].font.color = 'white'
+            else:
+                fig.layout.annotations[i].font.color = 'black'
+
+        # Convert the Plotly figure to HTML
+        plot2_div = fig.to_html()
+
+        # Add the Plotly plot to the context
+        context['plot2_div'] = plot2_div
+        
+
         context = KTLayout.init(context)
+
+
 
     
         # Add your additional context data here if needed
