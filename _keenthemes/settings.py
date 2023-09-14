@@ -187,7 +187,7 @@ KT_THEME_ICONS = 'duotone'
 # Theme Assets
 
 KT_THEME_ASSETS = {
-    "favicon": "media/logos/favicon.ico",
+    "favicon": "media/logos/unicon.png",
     "fonts": [
         'https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700',
     ],
