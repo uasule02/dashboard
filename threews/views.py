@@ -90,7 +90,7 @@ class InteractiveMapView(View):
                             hover_name='ADM2_EN',
                             hover_data=['unique_org_count', 'activity_count', 'unique_project_sector_count'],
                             animation_frame='year',
-                            title='Organisations by LGA',
+                            #title='Organisations by LGA',
                             labels={'unique_org_count': 'Unique Organisations', 'activity_count': 'Total Activities', 'unique_project_sector_count': 'Project Sectors'},
                             color_continuous_scale='OrRd')
 
@@ -98,11 +98,10 @@ class InteractiveMapView(View):
         fig.update_geos(fitbounds="locations", visible=False, center={"lat": 11.5, "lon": 13}, projection_scale=9)
 
         # Adjust the size of the map frame and hide the color scale
-        '''fig.update_layout(
+        fig.update_layout(
             autosize=True,  # Automatically adjust the map size
-            margin=dict(l=0, r=0, t=10, b=0),  # Remove margins
-            coloraxis_showscale=False
-        )'''
+            height=500,
+        )
         fig.update_traces(marker_line=dict(color='Gray', width=0.1))
 
         # Render the map in the template
@@ -110,7 +109,7 @@ class InteractiveMapView(View):
 
 
         #bubble chart
-        '''
+        
         file_path = os.path.join('assets', 'data/data_Graphs/3Ws_bubblechart.csv')
         df = pd.read_csv(file_path)
 
@@ -126,7 +125,7 @@ class InteractiveMapView(View):
                          color='state',
                          hover_name='org_acronym',
                          hover_data=['state', 'project_sector'],
-                         title='Activities by LGA',
+                         #title='Activities by LGA',
                          labels={'activities': 'Activities', 'lga': 'LGA'},
                          template='plotly_white',
                          size_max=50)  # Increase this value to make the bubbles larger
@@ -158,7 +157,7 @@ class InteractiveMapView(View):
 
         # Add the Plotly plot to the context
         context['plot_div'] = plot_div
-        '''
+        
 
         #heatmap
         file_path = os.path.join('assets', 'data/data_Graphs/3Ws_heatmap.csv')
@@ -186,10 +185,9 @@ class InteractiveMapView(View):
 
         # Update layout to move x-axis labels to the top
         fig.update_layout(xaxis=dict(side='top'),
-                          title='Heatmap of Sectors by States',
-                          autosize=False,
-                          width=800,
-                          height=400,
+                          #title='Heatmap of Sectors by States',
+                          autosize=True,
+                          height=500,
                           margin=dict(l=100, r=100, b=100, t=100))
 
         # Update annotations to make them more visible

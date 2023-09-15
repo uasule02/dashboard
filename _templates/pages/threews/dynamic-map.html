@@ -31,25 +31,25 @@ context.update({
 
 </div>
 <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 p-2">
     
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
         <div class="card-header">
-          <h3 class="card-title">Organistions states map</h3>
+          <h3 class="card-title">Organisations by LGA</h3>
         </div>
-          <div id="map-div">
+          <div id="map-div" style="max-width: 100%;">
           {{ map_div | safe }}
           </div>
       </div>
 
   </div>
-  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 p-2">
 
     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
       <div class="card-header">
-        <h3 class="card-title">States Heatmap</h3>
+        <h3 class="card-title">Heatmap of Sectors by States</h3>
       </div>
-      <div id="plot2-div">
+      <div id="plot2-div" style="max-width: 100%;">
         {{ plot2_div | safe }}
         </div>
       
@@ -64,13 +64,13 @@ context.update({
 <!--end::Row-->
 
 <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 p-2">
     
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
         <div class="card-header">
-          <h3 class="card-title">Organisations Activities</h3>
+          <h3 class="card-title">Activities by LGA</h3>
         </div>
-          <div id="plot-div">
+          <div id="plot-div" style="max-width: 100%;">
           {{ plot_div | safe }}
           </div>
       </div>
