@@ -30,13 +30,27 @@ import os
 import geopandas as gpd
 import pandas as pd
 import plotly.express as px
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from ipywidgets import interact, widgets
 import plotly.express as px
 import plotly.figure_factory as ff
+from .forms import UploadFileForm
 
-    
+class UploadView(TemplateView):
+    template_name = 'pages/threews/upload-file.html'
+
+    def get(self, request, *args, **kwargs):
+        form = UploadFileForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('success_view')  # Redirect to a success page
+        else:
+            return render(request, self.template_name, {'form': form})
 
 class InteractiveMapView(View):
     template_name = 'pages/threews/dynamic-map.html'
