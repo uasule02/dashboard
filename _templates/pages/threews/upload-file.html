@@ -1,0 +1,62 @@
+<!--
+Define in dashboards/views.py file
+context.update({
+    'layout': KTTheme.setLayout('default.html', context),
+})
+-->
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!--begin::Row-->
+<script>
+    window.onload = function() {
+        showTabContent('kt_app_header1');
+    };
+</script>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1" >
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 " >
+        <span>
+            
+        </span>
+    </div>
+
+</div>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 p-2">
+    
+      <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+        <div class="card-header">
+          <h3 class="card-title">Upload a File</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+      </div>
+
+  </div>
+  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 p-2">
+
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+      <div class="card-header">
+        <h3 class="card-title"></h3>
+      </div>
+      
+      
+    </div>
+
+  </div>
+
+
+</div>
+
+
+{% endblock content %}

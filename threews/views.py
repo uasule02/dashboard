@@ -40,9 +40,16 @@ from .forms import UploadFileForm
 class UploadView(TemplateView):
     template_name = 'pages/threews/upload-file.html'
 
-    def get(self, request, *args, **kwargs):
-        form = UploadFileForm()
-        return render(request, self.template_name, {'form': form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add your additional context data here if needed
+        context = KTLayout.init(context)
+
+        # Create an empty form for file upload
+        context['form'] = UploadFileForm()
+
+        return context
 
     def post(self, request, *args, **kwargs):
         form = UploadFileForm(request.POST, request.FILES)
@@ -50,7 +57,10 @@ class UploadView(TemplateView):
             form.save()
             return redirect('success_view')  # Redirect to a success page
         else:
-            return render(request, self.template_name, {'form': form})
+            # Reload the page with form errors
+            context = self.get_context_data()
+            context['form'] = form
+            return render(request, self.template_name, context)
 
 class InteractiveMapView(View):
     template_name = 'pages/threews/dynamic-map.html'
