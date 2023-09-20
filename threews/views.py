@@ -5,6 +5,7 @@ from django.urls import resolve
 from _keenthemes.__init__ import KTLayout
 from _keenthemes.libs.theme import KTTheme
 from pprint import pprint
+from django.contrib import messages
 
 """
 This file is a view controller for multiple pages as a module.
@@ -55,7 +56,10 @@ class UploadView(TemplateView):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('success_view')  # Redirect to a success page
+            messages.success(request, 'File uploaded successfully.')
+            context = self.get_context_data()
+
+            return render(request, self.template_name, context)
         else:
             # Reload the page with form errors
             context = self.get_context_data()

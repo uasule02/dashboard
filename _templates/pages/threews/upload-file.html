@@ -33,13 +33,23 @@ context.update({
     
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
         <div class="card-header">
-          <h3 class="card-title">Upload a File</h3>
+          <h3 class="card-title p-2">Upload a File</h3>
+
         </div>
-        <form method="post" enctype="multipart/form-data">
+        <form class="p-2" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
+      </div>
+      <div class="card-header p-2">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }} card-title"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
       </div>
 
   </div>

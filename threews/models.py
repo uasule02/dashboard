@@ -4,5 +4,9 @@ from django.db import models
 
 
 class UploadedFile(models.Model):
-    file = models.FileField(upload_to='uploads/')
+    #sector = 
+    #quater =
+    #year =
+    #user =
+    file = models.FileField(upload_to= 'upload/3ws')
     uploaded_at = models.DateTimeField(auto_now_add=True)
