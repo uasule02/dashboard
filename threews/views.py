@@ -26,7 +26,7 @@ from django.views.generic import TemplateView
 import matplotlib
 matplotlib.use('Agg')  # Choose an appropriate backend, 'Agg' for non-interactive use
 import matplotlib.pyplot as plt
-
+from django.http import HttpResponseBadRequest
 import os
 import geopandas as gpd
 import pandas as pd
@@ -38,7 +38,56 @@ import plotly.express as px
 import plotly.figure_factory as ff
 from .forms import UploadFileForm
 
+
 class UploadView(TemplateView):
+    template_name = 'pages/threews/upload-file.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = KTLayout.init(context)
+        context['form'] = UploadFileForm()
+        return context
+
+    def validate_file(self, file):
+        # Check if the file extension is valid (Excel or CSV)
+        allowed_extensions = ['.xls', '.xlsx', '.csv']
+        file_name, file_extension = os.path.splitext(file.name)
+        if file_extension.lower() not in allowed_extensions:
+            raise ValueError("Invalid file format. Please upload an Excel (XLS or XLSX) or CSV file.")
+        if file_extension.lower() in ['.xls', '.xlsx']:
+            df = pd.read_excel(file)
+        elif file_extension.lower() == '.csv':
+            df = pd.read_csv(file)
+
+        required_columns = ['organisation','org_acronym','org_type','project_sector','activities','status','state','state_pcode','lga','lga_pcode','ward','month','year']
+
+        for column in required_columns:
+            missing_columns = [column for column in required_columns if column not in df.columns]
+
+        if missing_columns:
+            missing_columns_str = ', '.join(missing_columns)
+            raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the colum in this format and upload again.")
+
+
+    def post(self, request, *args, **kwargs):
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                self.validate_file(request.FILES['file'])
+                form.save()
+                messages.success(request, 'File uploaded successfully.')
+            except ValueError as e:
+                messages.error(request, str(e))
+            context = self.get_context_data()
+            return render(request, self.template_name, context)
+        else:
+            # Reload the page with form errors
+            context = self.get_context_data()
+            context['form'] = form
+            return render(request, self.template_name, context)
+'''
+class UploadView(TemplateView):
+
     template_name = 'pages/threews/upload-file.html'
 
     def get_context_data(self, **kwargs):
@@ -65,7 +114,7 @@ class UploadView(TemplateView):
             context = self.get_context_data()
             context['form'] = form
             return render(request, self.template_name, context)
-
+'''
 class InteractiveMapView(View):
     template_name = 'pages/threews/dynamic-map.html'
 
