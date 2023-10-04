@@ -21,23 +21,55 @@ import numpy as np
 import matplotlib.font_manager as fm
 import geopandas as gpd
 import pandas as pd
-
-from django.views.generic import TemplateView
 import matplotlib
 matplotlib.use('Agg')  # Choose an appropriate backend, 'Agg' for non-interactive use
 import matplotlib.pyplot as plt
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 import os
 import geopandas as gpd
-import pandas as pd
 import plotly.express as px
 from django.shortcuts import render, redirect
 from django.views import View
 from ipywidgets import interact, widgets
-import plotly.express as px
 import plotly.figure_factory as ff
 from .forms import UploadFileForm
+from .models import UploadedFile 
+from keras.models import load_model
 
+'''
+class PredictView(TemplateView):
+    template_name = 'pages/threews/dynamic-map.html'
+    model = load_model('assets','ml_model/trained_model.h5')  # Replace with the actual path
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add your additional context data here if needed
+        context = KTLayout.init(context)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        #input_data = request.POST.get('input_data')
+        input_data = os.path.join('assets', 'dirty_data/unique_org.csv')
+        if input_data:
+            # Preprocess the input data as needed for your model
+            # For example, tokenize and pad sequences
+            dirty_data = pd.read_csv(input_data)
+            dirty_data = dirty_data.applymap(lambda s: s.lower() if type(s) == str else s)
+            dirty_data['combined'] = dirty_data['organisation'] + ' ' + dirty_data['org_acronym'] + ' ' + dirty_data['org_type']
+
+
+            # Make predictions using the model
+            predictions = self.model.predict(input_data)
+
+            # Postprocess predictions if necessary
+
+            # Return predictions as JSON response
+            return JsonResponse({'predictions': predictions.tolist()})
+        else:
+            return JsonResponse({'error': 'Invalid input data'})
+ '''       
 
 class UploadView(TemplateView):
     template_name = 'pages/threews/upload-file.html'
@@ -46,6 +78,8 @@ class UploadView(TemplateView):
         context = super().get_context_data(**kwargs)
         context = KTLayout.init(context)
         context['form'] = UploadFileForm()
+        context['successful_files'] = self.get_successful_files()
+
         return context
 
     def validate_file(self, file):
@@ -85,6 +119,15 @@ class UploadView(TemplateView):
             context = self.get_context_data()
             context['form'] = form
             return render(request, self.template_name, context)
+        
+    def get_successful_files(self):
+        # Assuming you have a ForeignKey field in your file model to link each file to a user
+        user = self.request.user
+
+        # Get a list of all the successful file uploads for the current user
+        successful_files = UploadedFile.objects.filter()
+
+        return successful_files
 '''
 class UploadView(TemplateView):
 
