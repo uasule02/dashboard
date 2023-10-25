@@ -75,9 +75,9 @@ context.update({
                 <td>{{ file.file.name }}</td>
                 <td>{{ file.uploaded_at }}</td>
                 <td>
-                  <form method="POST" action="#">
+                  <form method="POST" action="{% url 'threews:load' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="file_id" value="{{ file.id }}">
+                    <input type="hidden" name="file_id" value="{{ file.file.name }}">
                     <button type="submit" class="btn btn-primary">Process file</button>
                   </form>
                 </td>

@@ -40,7 +40,36 @@ from django.shortcuts import render, get_object_or_404
 
 class ProcessFileView(TemplateView):
     template_name = 'pages/threews/load-file.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        # Initialize the KTLayout
+        context = KTLayout.init(context)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        file_name = request.POST.get('file_id')
+
+        # Ensure that 'file_name' contains the path to the file, not just the name
+        file_path = os.path.join( file_name)
+        context = self.get_context_data()
+
+
+        try:
+            # Read the selected file into a DataFrame
+            df = pd.read_csv(file_path)
+
+            # Convert the DataFrame to an HTML table
+            df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+            context['table'] = df_html
+
+            return render(request, self.template_name,context)
+        except Exception as e:
+            context['error_message'] = f"Error processing CSV file: {e}"
+
+            return render(request, self.template_name,context)
+    '''
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = KTLayout.init(context)  # Add your additional context data here if needed
@@ -60,6 +89,8 @@ class ProcessFileView(TemplateView):
             context['error_message'] = f"Error processing CSV file: {e}"
 
         return context
+        '''
+    
 '''
 class PredictView(TemplateView):
     template_name = 'pages/threews/dynamic-map.html'
