@@ -35,7 +35,31 @@ import plotly.figure_factory as ff
 from .forms import UploadFileForm
 from .models import UploadedFile 
 from keras.models import load_model
+from django.shortcuts import render, get_object_or_404
 
+
+class ProcessFileView(TemplateView):
+    template_name = 'pages/threews/load-file.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = KTLayout.init(context)  # Add your additional context data here if needed
+
+        # Define the path to the CSV file
+        csv_file_path = os.path.join('assets', 'data/data_Graphs/3Ws_bubblechart.csv')
+
+        try:
+            # Read the CSV file into a DataFrame
+            df = pd.read_csv(csv_file_path)
+
+            # Convert the DataFrame to an HTML table
+            df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+
+            context['table'] = df_html
+        except Exception as e:
+            context['error_message'] = f"Error processing CSV file: {e}"
+
+        return context
 '''
 class PredictView(TemplateView):
     template_name = 'pages/threews/dynamic-map.html'

@@ -3,6 +3,12 @@
     <!--begin::Head-->
     <head>
         <title>{% block title %}{% endblock title %} - UN</title>
+        <style>
+            .scrollable-table {
+                max-height: 300px;  /* Set the maximum height for the table */
+                overflow-y: auto;  /* Enable vertical scrolling when the table exceeds the max height */
+            }
+        </style>
         <meta charset="utf-8"/>
         <meta name="description" content=""/>
         <meta name="keywords" content=""/>

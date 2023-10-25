@@ -1,0 +1,59 @@
+<!--
+Define in dashboards/views.py file
+context.update({
+    'layout': KTTheme.setLayout('default.html', context),
+})
+-->
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!--begin::Row-->
+<script>
+    window.onload = function() {
+        showTabContent('kt_app_header1');
+    };
+</script>
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10"id="kt_app_page1" >
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 " >
+       
+    </div>
+
+</div>
+<div class="row g-5 g-xl-12 mb-5 mb-xl-12"id="kt_app_page1">
+    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 " >
+        <div class="row g-5 g-xl-12 mb-5 mb-xl-12 mb-xxl-12"id="kt_app_page1" >
+            <h1>Load CSV File</h1>
+
+            <div class="scrollable-table">
+
+                {% if error_message %}
+                    <p>{{ error_message }}</p>
+                {% elif table %}
+                    {{ table|safe }}
+                {% endif %}
+            </div>
+        </div>    
+    </div>
+    <!--end::Col {% url 'threews:index1' %}-->
+    <!--begin::Col-->
+    <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 " >
+
+        
+    </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    
+    <!--end::Col-->
+</div>
+<!--end::Row-->
+
+<!--begin::Row-->
+
+{% endblock content %}
