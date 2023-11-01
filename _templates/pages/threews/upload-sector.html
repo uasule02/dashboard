@@ -1,0 +1,49 @@
+<!--
+Define in dashboards/views.py file
+context.update({
+    'layout': KTTheme.setLayout('default.html', context),
+})
+-->
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!--begin::Row-->
+<script>
+    window.onload = function() {
+        showTabContent('kt_app_header1');
+    };
+</script>
+
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10 p-2 ">
+
+    <div class=" col-md-12 col-lg-12 col-xl-12 col-xxl-12  ">
+
+    {% if user.is_active %}
+    <div class="row g-xl-10 mb-5 mb-xl-10 ">
+        <h6>{{user.email}}</h6>
+        {% for sector in sectors %}
+            <div class=" d-flex justify-content-center align-items-center col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 p-2 m-1ch" >
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <input type="hidden" name="sector_id" value="{{ sector.id }}">
+                <button type="submit" class="btn btn-primary "style="width: 10ch; height: 5ch;">{{ sector.acronyms }}</button>
+            </form>
+            
+            </div>
+            
+        {% endfor %}
+    </div>
+    {%endif%}
+    </div>
+
+</div>
+
+
+{% endblock content %}

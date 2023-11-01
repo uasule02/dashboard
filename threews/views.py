@@ -33,7 +33,7 @@ from django.views import View
 from ipywidgets import interact, widgets
 import plotly.figure_factory as ff
 from .forms import UploadFileForm
-from .models import UploadedFile 
+from .models import UploadedFile, Sector
 from keras.models import load_model
 from django.shortcuts import render, get_object_or_404
 
@@ -131,9 +131,13 @@ class UploadView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         context = KTLayout.init(context)
+        #context['user'] = self.get_user()
+        context['sectors'] = self.get_sectors()
         context['form'] = UploadFileForm()
         context['successful_files'] = self.get_successful_files()
+
 
         return context
 
@@ -183,6 +187,41 @@ class UploadView(TemplateView):
         successful_files = UploadedFile.objects.filter()
 
         return successful_files
+    
+    def get_sectors(self):
+
+        sectors = Sector.objects.filter()
+
+        return sectors
+    
+    def get_user(self, request):
+
+        user = request.user 
+
+        return user
+
+
+
+class UploadView1(TemplateView):
+    template_name = 'pages/threews/upload-demo.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context = KTLayout.init(context)
+        context['user'] = self.request.user
+        #context['user'] = self.get_user()
+        context['sectors'] = self.get_sectors()
+        return context
+   
+    
+    def get_sectors(self):
+
+
+        sectors = Sector.objects.filter()
+
+        return sectors
+    
 '''
 class UploadView(TemplateView):
 
