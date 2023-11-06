@@ -32,19 +32,19 @@ from django.shortcuts import render, redirect
 from django.views import View
 from ipywidgets import interact, widgets
 import plotly.figure_factory as ff
-from .forms import UploadFileForm
-from .models import UploadedFile, Sector
+from .forms import UploadFileForm, MonthFilterForm
+from .models import UploadedFile, Sector, Month, Year
 from keras.models import load_model
 from django.shortcuts import render, get_object_or_404
-
+from datetime import datetime
 
 class ProcessFileView(TemplateView):
-    template_name = 'pages/threews/load-file.html'
+    template_name = 'pages/threews/load-demo.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # Initialize the KTLayout
-        context = KTLayout.init(context)
+        #context = KTLayout.init(context)
 
         return context
 
@@ -53,7 +53,6 @@ class ProcessFileView(TemplateView):
 
         # Ensure that 'file_name' contains the path to the file, not just the name
         file_path = os.path.join( file_name)
-        context = self.get_context_data()
 
 
         try:
@@ -62,9 +61,10 @@ class ProcessFileView(TemplateView):
 
             # Convert the DataFrame to an HTML table
             df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+            context = self.get_context_data()
             context['table'] = df_html
 
-            return render(request, self.template_name,context)
+            return render(request, self.template_name, context)
         except Exception as e:
             context['error_message'] = f"Error processing CSV file: {e}"
 
@@ -124,7 +124,29 @@ class PredictView(TemplateView):
             return JsonResponse({'predictions': predictions.tolist()})
         else:
             return JsonResponse({'error': 'Invalid input data'})
- '''       
+ '''  
+
+'''
+class LoadMonthsView(TemplateView):
+    template_name = 'pages/threews/upload-file.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get the selected year from the request parameters
+        selected_year = self.request.GET.get('year')
+
+        # Query the months for the selected year
+        months = Month.objects.filter(year__year_number=selected_year)
+        
+
+        # Pass the months data as a context variable
+        context = KTLayout.init(context)
+
+        context['months'] = months
+
+        return context
+    '''
 
 class UploadView(TemplateView):
     template_name = 'pages/threews/upload-file.html'
@@ -133,10 +155,15 @@ class UploadView(TemplateView):
         context = super().get_context_data(**kwargs)
         
         context = KTLayout.init(context)
-        #context['user'] = self.get_user()
-        context['sectors'] = self.get_sectors()
+        context['years'] = self.get_years()
+        context['months'] = self.get_month()
         context['form'] = UploadFileForm()
         context['successful_files'] = self.get_successful_files()
+        #selected_year = self.request.GET.get('year', datetime.now().year)
+
+        # Query the months for the selected year
+        #months = Month.objects.filter(year__year_number=selected_year)
+        #context['months'] = months  # Include the months data
 
 
         return context
@@ -187,21 +214,22 @@ class UploadView(TemplateView):
         successful_files = UploadedFile.objects.filter()
 
         return successful_files
+
+        
     
-    def get_sectors(self):
+    def get_years(self):
+        years = Year.objects.all()
 
-        sectors = Sector.objects.filter()
-
-        return sectors
+        return years
     
-    def get_user(self, request):
 
-        user = request.user 
+    def get_month(self):
 
-        return user
+        months = Month.objects.filter(year__year_number = 2020)
+            
+        return months
 
-
-
+    
 class UploadView1(TemplateView):
     template_name = 'pages/threews/upload-demo.html'
     
@@ -210,15 +238,15 @@ class UploadView1(TemplateView):
         
         context = KTLayout.init(context)
         context['user'] = self.request.user
-        #context['user'] = self.get_user()
         context['sectors'] = self.get_sectors()
         return context
    
     
     def get_sectors(self):
 
+        if self.request.user.is_staff:
 
-        sectors = Sector.objects.filter()
+            sectors = Sector.objects.all().order_by('name')
 
         return sectors
     
