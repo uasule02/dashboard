@@ -244,9 +244,8 @@ class UploadView1(TemplateView):
     
     def get_sectors(self):
 
-        if self.request.user.is_staff:
 
-            sectors = Sector.objects.all().order_by('name')
+        sectors = Sector.objects.all().order_by('name')
 
         return sectors
     
