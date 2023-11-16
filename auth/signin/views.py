@@ -2,7 +2,10 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from _keenthemes.__init__ import KTLayout
 from _keenthemes.libs.theme import KTTheme
-
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.contrib import messages
 """
 This file is a view controller for multiple pages as a module.
 Here you can override the page view layout.
@@ -19,10 +22,17 @@ class AuthSigninView(TemplateView):
         # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
 
-        KTTheme.addJavascriptFile('js/custom/authentication/sign-in/general.js')
+        if self.request.method == 'POST':
+            username = self.request.POST['username']
+            password = self.request.POST['password']
+            user = authenticate(self.request, username=username, password=password)
+            if user is not None:
+                login(self.request, user)
+                messages.success(self.request, 'You have successfully logged in.')
+                return (user)  # Replace 'dashboard' with the URL name of your dashboard page.
+            else:
+                messages.error(self.request, 'Invalid login credentials.')
 
-        # Define the layout for this module
-        # _templates/layout/auth.html
         context.update({
             'layout': KTTheme.setLayout('auth.html', context),
         })

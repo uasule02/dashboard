@@ -34,9 +34,13 @@ from ipywidgets import interact, widgets
 import plotly.figure_factory as ff
 from .forms import UploadFileForm, MonthFilterForm
 from .models import UploadedFile, Sector, Month, Year
-from keras.models import load_model
+#from keras.models import load_model
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
+
+
+
+
 
 class ProcessFileView(TemplateView):
     template_name = 'pages/threews/load-demo.html'
@@ -149,7 +153,7 @@ class LoadMonthsView(TemplateView):
     '''
 
 class UploadView(TemplateView):
-    template_name = 'pages/threews/upload-file.html'
+    template_name = 'pages/threews/upload-sample.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -159,11 +163,8 @@ class UploadView(TemplateView):
         context['months'] = self.get_month()
         context['form'] = UploadFileForm()
         context['successful_files'] = self.get_successful_files()
-        #selected_year = self.request.GET.get('year', datetime.now().year)
+        #context['selected_year'] = self.get(self.request)
 
-        # Query the months for the selected year
-        #months = Month.objects.filter(year__year_number=selected_year)
-        #context['months'] = months  # Include the months data
 
 
         return context
@@ -187,25 +188,46 @@ class UploadView(TemplateView):
         if missing_columns:
             missing_columns_str = ', '.join(missing_columns)
             raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the colum in this format and upload again.")
+        else:
+            df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+            context = self.get_context_data()
+            context['uploaded-table'] = df_html
 
+            return context 
+    
 
     def post(self, request, *args, **kwargs):
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                self.validate_file(request.FILES['file'])
-                form.save()
-                messages.success(request, 'File uploaded successfully.')
-            except ValueError as e:
-                messages.error(request, str(e))
-            context = self.get_context_data()
-            return render(request, self.template_name, context)
-        else:
-            # Reload the page with form errors
-            context = self.get_context_data()
-            context['form'] = form
-            return render(request, self.template_name, context)
+
+        if 'file' in request.FILES:
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                try:
+                    self.validate_file(request.FILES['file'])
+                    form.save()
+                    messages.success(request, 'File uploaded successfully.')
+                except ValueError as e:
+                    messages.error(request, str(e))
+
+                    context = self.get_context_data()
+                    
+                    return render(request, self.template_name, context)
+            else:
+                # Reload the page with form errors
+                context = self.get_context_data()
+                context['form'] = form
+                return render(request, self.template_name, context)
         
+        #if 'year' in request.POST:
+            #selected_year = self.request.POST.get('year')
+            #months = Month.objects.filter(year__year_number=selected_year)
+
+            #context = self.get_context_data()
+            #context['months'] = months
+            #return months #render(request, self.template_name, context)
+
+
+
+            
     def get_successful_files(self):
         # Assuming you have a ForeignKey field in your file model to link each file to a user
         user = self.request.user
@@ -218,7 +240,7 @@ class UploadView(TemplateView):
         
     
     def get_years(self):
-        years = Year.objects.all()
+        years = Year.objects.all()  
 
         return years
     

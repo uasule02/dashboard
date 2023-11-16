@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import UploadedFile, Sector, Year, Month
+from .models import UploadedFile, Sector, Year, Month, CustomUser
 
 
 # Register your models here.
 @admin.register(UploadedFile)
 class UploadedFileAdmin(admin.ModelAdmin):
-    list_display = ('file', 'uploaded_at')
+    list_display = ('name', 'sector', 'month', 'user', 'file', 'uploaded_at')
 
 @admin.register(Sector)
 class SectorAdmin(admin.ModelAdmin):
@@ -19,6 +19,9 @@ class YearAdmin(admin.ModelAdmin):
 class MonthAdmin(admin.ModelAdmin):
     list_display = ('month_name','year', 'status')  # Use get_month_name_display to display the month name from choices
 
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ( 'email', 'first_name', 'last_name', 'user_sector', 'is_staff')
 
 
 admin.site.register(Year, YearAdmin)

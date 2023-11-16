@@ -19,7 +19,14 @@ context.update({
     window.onload = function() {
         showTabContent('kt_app_header1');
     };
+    var storedYear = localStorage.getItem("selectedYear");
+
+  // If a year is stored, set it as the selected year in the dropdown
+  
+    
+
 </script>
+
 
 <div class="row g-5 g-xl-10 mb-1 mb-xl-2 p-2 ">
 
@@ -27,13 +34,24 @@ context.update({
 
   <div class="row g-xl-5 mb-1 mb-xl-2 ">
         <div class=" d-flex justify-content-center align-items-center col-3 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-2" >
-          
-          <select id="year-selector" class="form-select">
-            <option value="" selected>Select a year</option>
-            {% for year in years %}
-            <option value="{{ year.year_number }}">{{ year.year_number }}</option>
-            {% endfor %}
-          </select>
+          <form method="get" action="{% url 'threews:upload1' %}">
+            {% csrf_token %}
+            <select class="form-select" name="year" id="year" onchange="this.form.submit();">
+                {% for year in years %}
+                    <option value="{{ year.year_number }}" {% if request.GET.year == year.year_number %}selected{% endif %}>{{ year.year_number }}</option>
+                {% endfor %}
+            </select>
+        </form>
+          <form method="get" action="{% url 'threews:upload1' %}">
+            {% csrf_token %}
+            
+            <select class="form-select" name="year" id="year" onchange="this.form.submit()">
+                <option value="" {% if not selected_year %}selected{% endif %}>Select a year</option>
+                {% for year in years %}
+                    <option value="{{ year.year_number }}" {% if selected_year == year.year_number %}selected{% endif %}>{{ year.year_number }}</option>
+                {% endfor %}
+            </select>
+        </form>
         </div>
 
         <div>  
@@ -64,13 +82,20 @@ context.update({
     
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
         <div class="card-header">
-          <h3 class="card-title p-2">Upload a File</h3>
+          <h3 class="card-title p-2"></h3>
 
         </div>
-        <form class="p-2" method="post" enctype="multipart/form-data">
+        <form class="p-2" method="post" action="{% url 'threews:upload1' %}  " enctype="multipart/form-data" id="upload-form">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
+
+    <!-- Button to trigger file input -->
+            <button type="button"  class="btn btn-primary"  onclick="document.getElementById('file-input').click()">Upload a File</button>
+            
+            <span id="file-name"></span>
+
+            <!-- Submit button (initially hidden) -->
+            <button type="submit" id="submit-btn" style="display: none;">Upload</button>
         </form>
       </div>
       <div class="card-header p-2">
@@ -137,31 +162,21 @@ context.update({
 </div>
 
 {% endblock content %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tabs = new bootstrap.Tab(document.querySelector('.nav-link'));
-        tabs.show();
-      });
-
-    $(document).ready(function () {
-        $('#year-selector').on('change', function () {
-            const selectedYear = $(this).val();
-            if (selectedYear) {
-                $.get(`/upload-file1/?year=${selectedYear}`, function (data) {
-
-                  $('#month-display').empty();
-
-                  // Loop through the JSON data and create elements
-                  
-                    // Handle the response data (e.g., update the page with the month information)
-                    // For example, you can update a div with the months or render them in a table.
-                });
-            }
-        });
-    });
+  // Function to display the selected file name
+  function displayFileName() {
+      const fileInput = document.getElementById('file-input');
+      const fileNameSpan = document.getElementById('file-name');
+      const submitButton = document.getElementById('submit-btn');
+      
+      if (fileInput.files.length > 0) {
+          fileNameSpan.textContent = fileInput.files[0].name;
+          submitButton.style.display = 'block';  // Show the submit button
+      } else {
+          fileNameSpan.textContent = '';  // Clear the displayed name if no file is selected
+          submitButton.style.display = 'none';  // Hide the submit button
+      }
+  }
 </script>
-
-
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

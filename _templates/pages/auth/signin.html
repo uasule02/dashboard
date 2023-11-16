@@ -58,19 +58,29 @@
     <!--end::Separator-->
 
     <!--begin::Input group--->
-    <div class="fv-row mb-8">
-        <!--begin::Email-->
-        <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent"/> 
-        <!--end::Email-->
-    </div>
+    
 
-    <!--end::Input group--->
-    <div class="fv-row mb-3">    
-        <!--begin::Password-->
-        <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent"/>
-        <!--end::Password-->
-    </div>
-    <!--end::Input group--->
+    <form method="post" action="{% url 'auth:signin' %}">
+        {% csrf_token %}
+        <div class="fv-row mb-8">
+            <!--begin::Email-->
+            <input type="text" placeholder="Email" id="username" value="username" name="username" autocomplete="off" class="form-control bg-transparent"/> 
+            <!--end::Email-->
+        </div>
+        <div class="fv-row mb-3">    
+            <!--begin::Password-->
+            <input type="password" placeholder="Password" id="password" value="password" name="password" autocomplete="off" class="form-control bg-transparent"/>
+            <!--end::Password-->
+        </div>
+
+        <div class="d-grid mb-10">
+            <button type="submit"  class="btn btn-primary">
+                Login
+            </button>
+        </div>  
+    </form>
+
+        <!--end::Input group--->
 
     <!--begin::Wrapper-->
     <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
@@ -85,11 +95,7 @@
     <!--end::Wrapper-->    
 
     <!--begin::Submit button-->
-    <div class="d-grid mb-10">
-        <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-            {% include 'partials/general/_button-indicator.html' with label='Sign In' %}
-        </button>
-    </div>
+    
     <!--end::Submit button-->
 
     <!--begin::Sign up-->

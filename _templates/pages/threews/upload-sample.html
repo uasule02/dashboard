@@ -1,0 +1,227 @@
+<!--
+Define in dashboards/views.py file
+context.update({
+    'layout': KTTheme.setLayout('default.html', context),
+})
+-->
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!--begin::Row-->
+<script>
+    window.onload = function() {
+        showTabContent('kt_app_header1');
+    };
+    var storedYear = localStorage.getItem("selectedYear");
+
+  // If a year is stored, set it as the selected year in the dropdown
+  
+    
+
+</script>
+
+
+<div class="row g-5 g-xl-10 mb-1 mb-xl-2 p-2 ">
+
+<div class=" col-md-12 col-lg-12 col-xl-12 col-xxl-12  ">
+
+  <div class="row g-xl-5 mb-1 mb-xl-2 ">
+        <div class=" d-flex justify-content-center align-items-center col-3 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-2" >
+          
+          <form method="get" action="{% url 'threews:upload1' %}">
+            {% csrf_token %}
+            <select class="form-select" name="year" id="year">
+                <option value="" selected>Select a year</option>
+                {% for year in years %}
+                    <option value="{{ year.year_number }}" {% if request.GET.year == year.year_number %}selected{% endif %}>{{ year.year_number }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        
+        </div>
+
+        <div>  
+
+          <ul class="nav nav-stretch nav-pills nav-pills-custom nav-pills-active-custom d-flex justify-content-between mb-8 px-5">
+            <!--begin::Nav item-->
+
+            <div id="month-display">
+              <!-- This is where the months will be displayed -->
+          </div>
+            {% for month in months %}
+            <li class="nav-item p-0 ms-0">
+              <!--begin::Date-->
+              <a class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px py-4 px-3 btn-active-primary" >
+                <span class="fs-7 fw-semibold">{{ month.month_name}}</span>
+                <span class="fs-6 fw-bold">{{month.status }}</span>
+              </a>
+              <!--end::Date-->
+            </li>
+            {% endfor %} 
+          </ul>
+
+        </div>
+          
+  </div> 
+
+</div>
+        
+
+</div>
+
+<div>
+  <button type="button" class="btn btn-flex btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_upload">
+    <i class="ki-duotone ki-folder-up fs-2">
+      <span class="path1"></span>
+      <span class="path2"></span>
+    </i>Upload Files</button>
+</div>
+<div class="modal fade" id="kt_modal_upload" tabindex="-1" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered mw-650px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+          <!--begin::Form-->
+          <form class="form" action="" id="kt_modal_upload_form">
+              {% csrf_token %}
+              <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
+
+              <!--begin::Modal header-->
+              <div class="modal-header">
+                  <!--begin::Modal title-->
+                  <h2 class="fw-bold">Upload files</h2>
+                  <!--end::Modal title-->
+                  <!--begin::Close-->
+                  <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                      <i class="ki-duotone ki-cross fs-1">
+                          <span class="path1"></span>
+                          <span class="path2"></span>
+                      </i>
+                  </div>
+                  <!--end::Close-->
+              </div>
+              <!--end::Modal header-->
+              <!--begin::Modal body-->
+              <div class="modal-body pt-10 pb-15 px-lg-17">
+                  <!--begin::Input group-->
+                  <div class="form-group">
+                      <!--begin::Dropzone-->
+                      <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
+                          <!--begin::Controls-->
+                          <div class="dropzone-panel mb-4">
+                              <a class="dropzone-select btn btn-sm btn-primary me-2" onclick="document.getElementById('file-input').click()" id="attach-files">Attach files</a>
+                              <a class="dropzone-upload btn btn-sm btn-light-primary me-2">Upload All</a>
+                              <a class="dropzone-remove-all btn btn-sm btn-light-primary">Remove All</a>
+                          </div>
+                          <!--end::Controls-->
+                          <!--begin::Items-->
+                          <div class="dropzone-items wm-200px" id="dropzone-items">
+                              <!-- Items will be dynamically added here using JavaScript -->
+                          </div>
+                          <!--end::Items-->
+                      </div>
+                      <!--end::Dropzone-->
+                      <!--begin::Hint-->
+                      <span class="form-text fs-6 text-muted">Max file size is 500MB per file.</span>
+                      <!--end::Hint-->
+                  </div>
+                  <!--end::Input group-->
+              </div>
+              <!--end::Modal body-->
+          </form>
+          <!--end::Form-->
+      </div>
+  </div>
+</div>
+{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // Function to display the selected file name
+  function displayFileName() {
+      const fileInput = document.getElementById('file-input');
+      const dropzoneItems = document.getElementById('dropzone-items');
+
+      // Remove any existing items
+      dropzoneItems.innerHTML = '';
+
+      if (fileInput.files.length > 0) {
+          const fileName = fileInput.files[0].name;
+
+          // Create a new item element
+          const newItem = document.createElement('div');
+          newItem.className = 'dropzone-item p-5';
+          newItem.innerHTML = `
+              <div class="dropzone-file">
+                  <div class="dropzone-filename text-dark" title="${fileName}">
+                      <span data-dz-name="">${fileName}</span>
+                      <strong>(<span data-dz-size="">${(fileInput.files[0].size / 1024).toFixed(2)} KB</span>)</strong>
+                  </div>
+                  <div class="dropzone-error mt-0" data-dz-errormessage=""></div>
+              </div>
+          `;
+
+          // Append the new item to the dropzone items div
+          dropzoneItems.appendChild(newItem);
+      }
+  }
+
+  // Attach event listener to update the file name display on file input change
+  document.getElementById('file-input').addEventListener('change', displayFileName);
+</script>
+<script>
+    // Function to load months
+    function loadMonths(selectedYear) {
+        $.get(`/load_months/?year=${selectedYear}`, function (data) {
+            let monthDisplay = $('#month-display');
+            monthDisplay.empty();  // Clear existing content
+
+            // Append the new month data to the display
+            $.each(data, function (index, month) {
+                monthDisplay.append(`<p class="month" data-month="${month.month_name}">${month.month_name}</p>`);
+            });
+
+            // Attach click event to each month
+            $('.month').click(function () {
+                const selectedMonth = $(this).data('month');
+                loadFiles(selectedYear, selectedMonth);
+            });
+        });
+    }
+
+    // Function to load files
+    function loadFiles(selectedYear, selectedMonth) {
+        $.get(`/load_files/?year=${selectedYear}&month=${selectedMonth}`, function (data) {
+            let fileDisplay = $('#file-display');
+            fileDisplay.empty();  // Clear existing content
+
+            // Append the new file data to the display
+            $.each(data, function (index, file) {
+                fileDisplay.append(`<p>${file.name}</p>`);
+            });
+        });
+    }
+
+    // Function to load months on year selection change
+    $('#year').change(function () {
+        const selectedYear = $(this).val();
+        if (selectedYear) {
+            loadMonths(selectedYear);
+        }
+    });
+
+    // Load months on page start if a year is preselected
+      $(document).ready(function () {
+        const preselectedYear = $('#year').val();
+        if (preselectedYear) {
+            loadMonths(preselectedYear);
+        }
+    });
+</script>
