@@ -160,7 +160,7 @@ class UploadView(TemplateView):
         
         context = KTLayout.init(context)
         context['years'] = self.get_years()
-        context['months'] = self.get_month()
+        #context['months'] = self.get_month()
         context['form'] = UploadFileForm()
         context['successful_files'] = self.get_successful_files()
         #context['selected_year'] = self.get(self.request)
@@ -217,13 +217,18 @@ class UploadView(TemplateView):
                 context['form'] = form
                 return render(request, self.template_name, context)
         
-        #if 'year' in request.POST:
-            #selected_year = self.request.POST.get('year')
-            #months = Month.objects.filter(year__year_number=selected_year)
+        if 'year' in request.POST:
+            selected_year = request.POST.get('year')
 
-            #context = self.get_context_data()
-            #context['months'] = months
-            #return months #render(request, self.template_name, context)
+            months = Month.objects.filter(year__year_number=selected_year)
+            #reports= ReportUpload.objects.filter(year__year_number=selected_year)
+
+            context = self.get_context_data()
+
+            context['months'] = months
+            #context['reports'] = reports
+
+            return render(request, self.template_name, context)
 
 
 
@@ -245,11 +250,11 @@ class UploadView(TemplateView):
         return years
     
 
-    def get_month(self):
+    #def get_month(self):
 
-        months = Month.objects.filter(year__year_number = 2020)
+        #months = Month.objects.filter(year__year_number = 2020)
             
-        return months
+        #return months
 
     
 class UploadView1(TemplateView):

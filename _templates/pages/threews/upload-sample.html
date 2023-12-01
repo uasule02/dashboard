@@ -31,41 +31,45 @@ context.update({
 <div class="row g-5 g-xl-10 mb-1 mb-xl-2 p-2 ">
 
 <div class=" col-md-12 col-lg-12 col-xl-12 col-xxl-12  ">
+    <div>  
+
+        <ul class="nav nav-stretch nav-pills nav-pills-custom nav-pills-active-primary d-flex justify-content-between mb-8 px-5">
+          <!--begin::Nav item-->
+          
+          {% for month in months %}
+    
+          <li class="nav-item p-0 ms-0">
+            <!--begin::Date-->
+            <a class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px py-4 px-3 btn-active-primary" >
+              <span class="fs-6 fw-bold">{{month.month_name}}</span>
+              <span class="fs-7" style="color: gray;">{{month.status }}</span>
+
+            </a>
+            <!--end::Date-->
+          </li>
+          {% endfor %} 
+        </ul>
+    
+      </div>
+    
 
   <div class="row g-xl-5 mb-1 mb-xl-2 ">
         <div class=" d-flex justify-content-center align-items-center col-3 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-2" >
           
-          <form method="get" action="{% url 'threews:upload1' %}">
-            {% csrf_token %}
-            <select class="form-select" name="year" id="year">
-                <option value="" selected>Select a year</option>
-                {% for year in years %}
-                    <option value="{{ year.year_number }}" {% if request.GET.year == year.year_number %}selected{% endif %}>{{ year.year_number }}</option>
-                {% endfor %}
-            </select>
-        </form>
+            <form method="post" action="{% url 'threews:upload1' %}">
+                {% csrf_token %}
+                
+                <select class="form-select" name="year" id="year" onchange="this.form.submit()">
+                    <option value="" {% if not selected_year %}selected{% endif %}>Select a year</option>
+                    {% for year in years %}
+                        <option value="{{ year.year_number }}" {% if selected_year == year.year_number %}selected{% endif %}>{{ year.year_number }}</option>
+                    {% endfor %}
+                </select>
+            </form>
         
         </div>
 
         <div>  
-
-          <ul class="nav nav-stretch nav-pills nav-pills-custom nav-pills-active-custom d-flex justify-content-between mb-8 px-5">
-            <!--begin::Nav item-->
-
-            <div id="month-display">
-              <!-- This is where the months will be displayed -->
-          </div>
-            {% for month in months %}
-            <li class="nav-item p-0 ms-0">
-              <!--begin::Date-->
-              <a class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px py-4 px-3 btn-active-primary" >
-                <span class="fs-7 fw-semibold">{{ month.month_name}}</span>
-                <span class="fs-6 fw-bold">{{month.status }}</span>
-              </a>
-              <!--end::Date-->
-            </li>
-            {% endfor %} 
-          </ul>
 
         </div>
           
@@ -89,7 +93,7 @@ context.update({
       <!--begin::Modal content-->
       <div class="modal-content">
           <!--begin::Form-->
-          <form class="form" action="" id="kt_modal_upload_form">
+          <form class="form" action="" id="kt_modal_upload_form" method="post">
               {% csrf_token %}
               <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
 
@@ -117,8 +121,6 @@ context.update({
                           <!--begin::Controls-->
                           <div class="dropzone-panel mb-4">
                               <a class="dropzone-select btn btn-sm btn-primary me-2" onclick="document.getElementById('file-input').click()" id="attach-files">Attach files</a>
-                              <a class="dropzone-upload btn btn-sm btn-light-primary me-2">Upload All</a>
-                              <a class="dropzone-remove-all btn btn-sm btn-light-primary">Remove All</a>
                           </div>
                           <!--end::Controls-->
                           <!--begin::Items-->

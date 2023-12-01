@@ -7,9 +7,8 @@ app_name = 'threews'
 urlpatterns = [
     path('interactive', MapView.as_view(template_name = 'pages/threews/index.html'), name='index'),
     path('', InteractiveMapView.as_view(template_name = 'pages/threews/dynamic-map.html'), name='index1'),
-    path('upload-file1', UploadView.as_view(template_name = 'pages/threews/upload-sample.html'), name='upload1'),
+    path('upload', UploadView.as_view(template_name = 'pages/threews/upload-sample.html'), name='upload1'),
     path('upload-file', UploadView1.as_view(template_name = 'pages/threews/upload-demo.html'), name='upload'),
-    path('upload-file1/year/',UploadView.as_view(template_name = 'pages/threews/upload-file.html'), name='upload11'),
     path('load-file', ProcessFileView.as_view(template_name = 'pages/threews/load-demo.html'), name='load'),
     #path('load_months/', load_months, name='load_months'),
 
