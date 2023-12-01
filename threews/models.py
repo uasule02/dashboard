@@ -128,4 +128,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+
+
+
+class ReportUpload(models.Model):
+    month = models.ForeignKey(Month, on_delete=models.CASCADE)
+    year = models.ForeignKey(Year, on_delete=models.CASCADE)
+    sectors = models.ManyToManyField(Sector)
+    status_choices = [('open', 'Open'), ('closed', 'Closed')]
+    status = models.CharField(max_length=10, choices=status_choices)
+
+    def __str__(self):
+        return f"{self.month} - {self.year} -  {self.status}"
 
