@@ -22,10 +22,8 @@ context.update({
     var storedYear = localStorage.getItem("selectedYear");
 
   // If a year is stored, set it as the selected year in the dropdown
-  
-    
-
 </script>
+
 
 
 <div class="row g-5 g-xl-10 mb-1 mb-xl-2 p-2 ">
@@ -34,21 +32,15 @@ context.update({
     <div>  
 
         <ul class="nav nav-stretch nav-pills nav-pills-custom nav-pills-active-primary d-flex justify-content-between mb-8 px-5">
-          <!--begin::Nav item-->
-          
-          {% for month in months %}
-    
-          <li class="nav-item p-0 ms-0">
-            <!--begin::Date-->
-            <a class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px py-4 px-3 btn-active-primary" >
-              <span class="fs-6 fw-bold">{{month.month_name}}</span>
-              <span class="fs-7" style="color: gray;">{{month.status }}</span>
-
-            </a>
-            <!--end::Date-->
-          </li>
-          {% endfor %} 
-        </ul>
+            {% for month in months %}
+              <li class="nav-item p-0 ms-0">
+                <a class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px py-4 px-3 btn-active-primary" data-bs-toggle="tab" href="#kt_timeline_widget_3_tab_content_1">
+                  <span class="fs-6 fw-bold">{{ month.month_name }}</span>
+                  <span class="fs-7" style="color: gray;">{{ month.status }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
     
       </div>
     
@@ -81,149 +73,121 @@ context.update({
 </div>
 
 <div>
-  <button type="button" class="btn btn-flex btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_upload">
-    <i class="ki-duotone ki-folder-up fs-2">
-      <span class="path1"></span>
-      <span class="path2"></span>
-    </i>Upload Files</button>
+    <form class="form" method="post" action=" {% url 'threews:upload1' %}" id="upload_form">
+        {% csrf_token %}
+        <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
+    
+      <button type="button" class="btn btn-flex btn-primary" onclick="document.getElementById('file-input').click()" >
+        <i class="ki-duotone ki-folder-up fs-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>Upload Files</button>
+        
+      <script>
+        // Get the file input element
+        const fileInput1 = document.getElementById('file-input');
+    
+        // Add an event listener for file selection
+        fileInput1.addEventListener('change', function() {
+          // Trigger the form submission when a file is selected
+          document.getElementById('upload_form').submit();
+        });
+    
+      </script>
+      
+    </form>
 </div>
-<div class="modal fade" id="kt_modal_upload" tabindex="-1" aria-hidden="true">
-  <!--begin::Modal dialog-->
-  <div class="modal-dialog modal-dialog-centered mw-650px">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-          <!--begin::Form-->
-          <form class="form" action="" id="kt_modal_upload_form" method="post">
-              {% csrf_token %}
-              <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
-
-              <!--begin::Modal header-->
-              <div class="modal-header">
-                  <!--begin::Modal title-->
-                  <h2 class="fw-bold">Upload files</h2>
-                  <!--end::Modal title-->
-                  <!--begin::Close-->
-                  <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
-                      <i class="ki-duotone ki-cross fs-1">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                      </i>
-                  </div>
-                  <!--end::Close-->
-              </div>
-              <!--end::Modal header-->
-              <!--begin::Modal body-->
-              <div class="modal-body pt-10 pb-15 px-lg-17">
-                  <!--begin::Input group-->
-                  <div class="form-group">
-                      <!--begin::Dropzone-->
-                      <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
-                          <!--begin::Controls-->
-                          <div class="dropzone-panel mb-4">
-                              <a class="dropzone-select btn btn-sm btn-primary me-2" onclick="document.getElementById('file-input').click()" id="attach-files">Attach files</a>
-                          </div>
-                          <!--end::Controls-->
-                          <!--begin::Items-->
-                          <div class="dropzone-items wm-200px" id="dropzone-items">
-                              <!-- Items will be dynamically added here using JavaScript -->
-                          </div>
-                          <!--end::Items-->
-                      </div>
-                      <!--end::Dropzone-->
-                      <!--begin::Hint-->
-                      <span class="form-text fs-6 text-muted">Max file size is 500MB per file.</span>
-                      <!--end::Hint-->
-                  </div>
-                  <!--end::Input group-->
-              </div>
-              <!--end::Modal body-->
-          </form>
-          <!--end::Form-->
-      </div>
-  </div>
+<div class="tab-pane fade" id="kt_timeline_widget_3_tab_content_1">
+    <!--begin::Wrapper-->
+    <div class="d-flex align-items-center mb-6">
+        <!--begin::Bullet-->
+        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex align-items-center min-h-70px mh-100 me-4 bg-success"></span>
+        <!--end::Bullet-->
+        <!--begin::Info-->
+        <div class="flex-grow-1 me-5">
+            <!--begin::Time-->
+            <div class="text-gray-800 fw-semibold fs-2">{{month.name}}
+            <span class="text-gray-400 fw-semibold fs-7">AM</span></div>
+            <!--end::Time-->
+            <!--begin::Description-->
+            <div class="text-gray-700 fw-semibold fs-6">9 Degree Project Estimation Meeting</div>
+            <!--end::Description-->
+            <!--begin::Link-->
+            <div class="text-gray-400 fw-semibold fs-7">Lead by
+            <!--begin::Name-->
+            <a href="#" class="text-primary opacity-75-hover fw-semibold">Peter Marcus</a>
+            <!--end::Name--></div>
+            <!--end::Link-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Action-->
+        <a href="#" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">View</a>
+        <!--end::Action-->
+    </div>
+    <!--end::Wrapper-->
+    <!--begin::Wrapper-->
+    
+    <!--end::Wrapper-->
+    <!--begin::Wrapper-->
+    <div class="d-flex align-items-center mb-6">
+        <!--begin::Bullet-->
+        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex align-items-center min-h-70px mh-100 me-4 bg-info"></span>
+        <!--end::Bullet-->
+        <!--begin::Info-->
+        <div class="flex-grow-1 me-5">
+            <!--begin::Time-->
+            <div class="text-gray-800 fw-semibold fs-2">16:30 - 17:00
+            <span class="text-gray-400 fw-semibold fs-7">PM</span></div>
+            <!--end::Time-->
+            <!--begin::Description-->
+            <div class="text-gray-700 fw-semibold fs-6">Marketing Campaign Discussion</div>
+            <!--end::Description-->
+            <!--begin::Link-->
+            <div class="text-gray-400 fw-semibold fs-7">Lead by
+            <!--begin::Name-->
+            <a href="#" class="text-primary opacity-75-hover fw-semibold">Lead by Mark Morris</a>
+            <!--end::Name--></div>
+            <!--end::Link-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Action-->
+        <a href="#" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">View</a>
+        <!--end::Action-->
+    </div>
+    <!--end::Wrapper-->
 </div>
 {% endblock content %}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+<script src="assets/plugins/global/plugins.bundle.js"></script>
+<script src="assets/js/scripts.bundle.js"></script>
+
 <script>
   // Function to display the selected file name
-  function displayFileName() {
-      const fileInput = document.getElementById('file-input');
-      const dropzoneItems = document.getElementById('dropzone-items');
-
-      // Remove any existing items
-      dropzoneItems.innerHTML = '';
-
-      if (fileInput.files.length > 0) {
-          const fileName = fileInput.files[0].name;
-
-          // Create a new item element
-          const newItem = document.createElement('div');
-          newItem.className = 'dropzone-item p-5';
-          newItem.innerHTML = `
-              <div class="dropzone-file">
-                  <div class="dropzone-filename text-dark" title="${fileName}">
-                      <span data-dz-name="">${fileName}</span>
-                      <strong>(<span data-dz-size="">${(fileInput.files[0].size / 1024).toFixed(2)} KB</span>)</strong>
-                  </div>
-                  <div class="dropzone-error mt-0" data-dz-errormessage=""></div>
-              </div>
-          `;
-
-          // Append the new item to the dropzone items div
-          dropzoneItems.appendChild(newItem);
-      }
-  }
-
   // Attach event listener to update the file name display on file input change
   document.getElementById('file-input').addEventListener('change', displayFileName);
 </script>
 <script>
+
+$(document).ready(function () {
+    $(".month-link").on("click", function () {
+      // Remove the active class from all month links
+      $(".month-link").removeClass("active");
+
+      // Add the active class to the clicked month link
+      $(this).addClass("active");
+
+      // Set the is_active property for the clicked month link
+      $(".month-link").removeClass("active");
+      $(this).addClass("active");
+    });
+  });
+    
     // Function to load months
-    function loadMonths(selectedYear) {
-        $.get(`/load_months/?year=${selectedYear}`, function (data) {
-            let monthDisplay = $('#month-display');
-            monthDisplay.empty();  // Clear existing content
-
-            // Append the new month data to the display
-            $.each(data, function (index, month) {
-                monthDisplay.append(`<p class="month" data-month="${month.month_name}">${month.month_name}</p>`);
-            });
-
-            // Attach click event to each month
-            $('.month').click(function () {
-                const selectedMonth = $(this).data('month');
-                loadFiles(selectedYear, selectedMonth);
-            });
-        });
-    }
-
+    
     // Function to load files
-    function loadFiles(selectedYear, selectedMonth) {
-        $.get(`/load_files/?year=${selectedYear}&month=${selectedMonth}`, function (data) {
-            let fileDisplay = $('#file-display');
-            fileDisplay.empty();  // Clear existing content
 
-            // Append the new file data to the display
-            $.each(data, function (index, file) {
-                fileDisplay.append(`<p>${file.name}</p>`);
-            });
-        });
-    }
+    
 
-    // Function to load months on year selection change
-    $('#year').change(function () {
-        const selectedYear = $(this).val();
-        if (selectedYear) {
-            loadMonths(selectedYear);
-        }
-    });
-
-    // Load months on page start if a year is preselected
-      $(document).ready(function () {
-        const preselectedYear = $('#year').val();
-        if (preselectedYear) {
-            loadMonths(preselectedYear);
-        }
-    });
 </script>

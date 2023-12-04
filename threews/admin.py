@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UploadedFile, Sector, Year, Month, CustomUser
+from .models import UploadedFile, Sector, Year, Month, CustomUser, ReportUpload
 
 
 # Register your models here.
@@ -23,5 +23,8 @@ class MonthAdmin(admin.ModelAdmin):
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ( 'email', 'first_name', 'last_name', 'user_sector', 'is_staff')
 
+@admin.register(ReportUpload)
+class ReportUploadAdmin(admin.ModelAdmin):
+    list_display = ('month', 'year', 'status')
 
 admin.site.register(Year, YearAdmin)

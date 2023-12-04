@@ -6,8 +6,7 @@ from .models import UploadedFile, Month, Year
 class UploadFileForm(forms.ModelForm):
     class Meta:
         model = UploadedFile
-        fields = ['file']
-        time = ['uploaded_at']
+        fields = ['sector', 'month', 'year', 'file']  # Add or remove fields as needed
         
 class MonthFilterForm(forms.Form):
     year = forms.ModelChoiceField(

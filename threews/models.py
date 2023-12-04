@@ -63,18 +63,41 @@ class Month(models.Model):
     year = models.ForeignKey(Year, on_delete=models.CASCADE)
     month_name = models.CharField(max_length=20, choices=MONTH_CHOICES)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='closed')
+    def __str__(self):
+        return f"{self.month_name} - {self.year}"
     
+class ReportUpload(models.Model):
+    month = models.ForeignKey(Month, on_delete=models.CASCADE)
+    year = models.ForeignKey(Year, on_delete=models.CASCADE)
+    sectors = models.ManyToManyField(Sector)
+    status_choices = [('open', 'Open'), ('closed', 'Closed')]
+    status = models.CharField(max_length=10, choices=status_choices)
+
+    def __str__(self):
+        return f"{self.month} - {self.year} -  {self.status}"
+
+
 
 class UploadedFile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE,null=True, blank=True)
-    month = models.ForeignKey(Month,  on_delete=models.CASCADE,null=True, blank=True)
+    month = models.ForeignKey(ReportUpload,  on_delete=models.CASCADE,null=True, blank=True)
     year = models.ForeignKey(Year, on_delete=models.CASCADE,null=True, blank=True)
     name = models.CharField(max_length=255, editable=False) 
     file = models.FileField(upload_to= 'upload/3ws')
     uploaded_at = models.DateTimeField(auto_now_add=True)
      # Add the 'name' field
+
+    def save(self, *args, **kwargs):
+        # Create the name using the sector, month, and year fields
+        name = f"{self.sector.acronyms} - {self.month.month}"
+
+        # Assign the generated name to the name field
+        self.name = name
+
+        # Call the original save method
+        super().save(*args, **kwargs)
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -131,14 +154,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
 
 
-
-class ReportUpload(models.Model):
-    month = models.ForeignKey(Month, on_delete=models.CASCADE)
-    year = models.ForeignKey(Year, on_delete=models.CASCADE)
-    sectors = models.ManyToManyField(Sector)
-    status_choices = [('open', 'Open'), ('closed', 'Closed')]
-    status = models.CharField(max_length=10, choices=status_choices)
-
-    def __str__(self):
-        return f"{self.month} - {self.year} -  {self.status}"
 
