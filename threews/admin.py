@@ -25,6 +25,6 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(ReportUpload)
 class ReportUploadAdmin(admin.ModelAdmin):
-    list_display = ('month', 'year', 'status')
+    list_display = ('id','month', 'year', 'status')
 
 admin.site.register(Year, YearAdmin)

@@ -73,29 +73,46 @@ context.update({
 </div>
 
 <div>
-    <form class="form" method="post" action=" {% url 'threews:upload1' %}" id="upload_form">
-        {% csrf_token %}
-        <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlxs, .xlx">
-    
-      <button type="button" class="btn btn-flex btn-primary" onclick="document.getElementById('file-input').click()" >
+
+    <div class="card-header p-2">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }} card-title"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+  <form class="form" method="post" action="{% url 'threews:upload1' %}" id="upload_form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Hidden file input -->
+    <input type="file" name="file" id="file-input" style="display: none;" accept=".csv, .xlsx, .xls">
+
+    <!-- Button to trigger file input selection -->
+    <button type="button" class="btn btn-flex btn-primary" onclick="document.getElementById('file-input').click()">
         <i class="ki-duotone ki-folder-up fs-2">
-          <span class="path1"></span>
-          <span class="path2"></span>
-        </i>Upload Files</button>
-        
-      <script>
+            <span class="path1"></span>
+            <span class="path2"></span>
+        </i>Upload Files
+    </button>
+
+    <!-- Submit the form when a file is selected -->
+    <script>
         // Get the file input element
-        const fileInput1 = document.getElementById('file-input');
-    
+        const fileInput = document.getElementById('file-input');
+
         // Add an event listener for file selection
-        fileInput1.addEventListener('change', function() {
-          // Trigger the form submission when a file is selected
-          document.getElementById('upload_form').submit();
+        fileInput.addEventListener('change', function () {
+            // Trigger the form submission when a file is selected
+            document.getElementById('upload_form').submit();
         });
-    
-      </script>
-      
-    </form>
+    </script>
+</form>
+</div>
+<div class="container mt-4">
+    <h2>DataFrame Display</h2>
+    {{ df_html | safe }}
 </div>
 <div class="tab-pane fade" id="kt_timeline_widget_3_tab_content_1">
     <!--begin::Wrapper-->

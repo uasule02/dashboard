@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 # Create your models here.
+import os
+import pandas as pd
+from django.core.exceptions import ValidationError
 
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
@@ -91,6 +94,7 @@ class UploadedFile(models.Model):
 
     def save(self, *args, **kwargs):
         # Create the name using the sector, month, and year fields
+        #self.check_file_header()
         name = f"{self.sector.acronyms} - {self.month.month}"
 
         # Assign the generated name to the name field
@@ -98,6 +102,41 @@ class UploadedFile(models.Model):
 
         # Call the original save method
         super().save(*args, **kwargs)
+
+    def check_file_header(self):
+        allowed_extensions = ['.xls', '.xlsx', '.csv']
+
+        # Check if the file exists
+        if not self.file.name:
+            raise ValidationError("No file is attached. Please upload a file.")
+
+        # Get the file extension
+        _, file_extension = os.path.splitext(self.file.name)
+
+        if file_extension not in allowed_extensions:
+            raise ValidationError("Invalid file format. Please upload a valid CSV or Excel file.")
+
+        try:
+            # Use self.file.name instead of self.file.path
+            df = pd.read_csv(self.file.path)
+            print("File is in CSV format.")
+            # Perform actions for CSV files
+        except pd.errors.EmptyDataError:
+            try:
+                # Use self.file.name instead of self.file.path
+                df = pd.read_excel(self.file.path)
+                print("File is in Excel format.")
+                # Perform actions for Excel files
+            except pd.errors.XLRDError:
+                raise ValidationError("Invalid file format. Please upload a valid CSV or Excel file.")
+
+        required_columns = ['organisation', 'org_acronym', 'org_type', 'project_sector', 'activities', 'status', 'state', 'state_pcode', 'lga', 'lga_pcode', 'ward', 'month', 'year']
+
+        missing_columns = [column for column in required_columns if column not in df.columns]
+
+        if missing_columns:
+            missing_columns_str = ', '.join(missing_columns)
+            raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the columns in this format and upload again.")
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):

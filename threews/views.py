@@ -33,7 +33,7 @@ from django.views import View
 from ipywidgets import interact, widgets
 import plotly.figure_factory as ff
 from .forms import UploadFileForm, MonthFilterForm
-from .models import UploadedFile, Sector, Month, Year
+from .models import UploadedFile, Sector, Month, Year, ReportUpload
 #from keras.models import load_model
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
@@ -130,27 +130,6 @@ class PredictView(TemplateView):
             return JsonResponse({'error': 'Invalid input data'})
  '''  
 
-'''
-class LoadMonthsView(TemplateView):
-    template_name = 'pages/threews/upload-file.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Get the selected year from the request parameters
-        selected_year = self.request.GET.get('year')
-
-        # Query the months for the selected year
-        months = Month.objects.filter(year__year_number=selected_year)
-        
-
-        # Pass the months data as a context variable
-        context = KTLayout.init(context)
-
-        context['months'] = months
-
-        return context
-    '''
 
 class UploadView(TemplateView):
     template_name = 'pages/threews/upload-sample.html'
@@ -170,15 +149,18 @@ class UploadView(TemplateView):
         return context
 
     def validate_file(self, file):
+        
         # Check if the file extension is valid (Excel or CSV)
         allowed_extensions = ['.xls', '.xlsx', '.csv']
         file_name, file_extension = os.path.splitext(file.name)
-        if file_extension.lower() not in allowed_extensions:
-            raise ValueError("Invalid file format. Please upload an Excel (XLS or XLSX) or CSV file.")
+        #if file_extension.lower() not in allowed_extensions:
+            #raise ValueError("Invalid file format. Please upload an Excel (XLS or XLSX) or CSV file.")
         if file_extension.lower() in ['.xls', '.xlsx']:
             df = pd.read_excel(file)
+            return df
         elif file_extension.lower() == '.csv':
             df = pd.read_csv(file)
+            return df
 
         required_columns = ['organisation','org_acronym','org_type','project_sector','activities','status','state','state_pcode','lga','lga_pcode','ward','month','year']
 
@@ -187,32 +169,42 @@ class UploadView(TemplateView):
 
         if missing_columns:
             missing_columns_str = ', '.join(missing_columns)
-            raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the colum in this format and upload again.")
+            return missing_columns_str
+            #raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the colum in this format and upload again.")
         else:
-            df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+            '''
             context = self.get_context_data()
-            context['uploaded-table'] = df_html
+            context['uploaded-table'] = df_html'''
 
-            return context 
+            return file 
     
-
+    
     def post(self, request, *args, **kwargs):
 
         if 'file' in request.FILES:
             form = UploadFileForm(request.POST, request.FILES)
+
             if form.is_valid():
+                instance = form.save(commit=False)
+                instance.file = request.FILES['file']
+                sector_instance = Sector.objects.get(acronyms='EDU')
+                year_instance = Year.objects.get(year_number=2024)
+                month_instance = ReportUpload.objects.get(id =1)
+                instance.sector = sector_instance
+                instance.year = year_instance
+                instance.month = month_instance
+
                 try:
-                    self.validate_file(request.FILES['file'])
-                    form.save()
-                    messages.success(request, 'File uploaded successfully.')
-                except ValueError as e:
-                    messages.error(request, str(e))
+                    self.validate_and_save_file(instance, request)
 
                     context = self.get_context_data()
-                    
                     return render(request, self.template_name, context)
+
+                except ValueError as e:
+                    messages.error(request, str(e))
+                    return render(request, self.template_name, self.get_context_data())
+
             else:
-                # Reload the page with form errors
                 context = self.get_context_data()
                 context['form'] = form
                 return render(request, self.template_name, context)
@@ -230,7 +222,44 @@ class UploadView(TemplateView):
 
             return render(request, self.template_name, context)
 
+    def validate_and_save_file(self, instance, request):
+        # Read the file and check the file header
+        try:
+            if instance.file.name.endswith('.xlsx') or instance.file.name.endswith('.xls'):
+                df = pd.read_excel(instance.file)
+            elif instance.file.name.endswith('.csv'):
+                df = pd.read_csv(instance.file)
 
+            #df = pd.read_excel(instance.file) or pd.read_csv(instance.file) 
+
+            # Your header validation logic here
+            required_columns = ['organisation', 'org_acronym', 'org_type']
+            missing_columns = [column for column in required_columns if column not in df.columns]
+            
+            if missing_columns:
+                missing_columns_str = ', '.join(missing_columns)
+                messages.error(request, f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the columns in this format and upload again.")
+
+                df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+                return HttpResponse(df_html)
+
+
+
+            else:
+                messages.success(request, 'File uploaded successfully.') 
+                instance.save()
+                df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+
+                context = self.get_context_data()
+                context['df_html'] = df_html
+                return render(request, self.template_name, context)
+
+
+        except pd.errors.EmptyDataError:
+            messages.error(request, "The Excel file is empty.")
+        
+        # Save the instance if file header is valid
+   
 
             
     def get_successful_files(self):
