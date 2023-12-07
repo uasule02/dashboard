@@ -198,7 +198,7 @@ class UploadView(TemplateView):
         try:
             if instance.file.name.endswith('.xlsx') or instance.file.name.endswith('.xls'):
                 df = pd.read_excel(instance.file)
-                
+
             elif instance.file.name.endswith('.csv'):
                 df = pd.read_csv(instance.file)
 
@@ -212,7 +212,7 @@ class UploadView(TemplateView):
 
                 #df_html = df.to_html(classes='table table-bordered table-striped table-hover')
                 
-                return df
+                return df.head(0)
 
 
 
@@ -223,7 +223,7 @@ class UploadView(TemplateView):
 
                 #context = self.get_context_data()
                 #context['df_html'] = df_html
-                return df
+                return df.head()
 
         except pd.errors.EmptyDataError:
             messages.error(request, "The Excel file is empty.")
