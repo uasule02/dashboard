@@ -135,8 +135,7 @@ class UploadView(TemplateView):
     template_name = 'pages/threews/upload-sample.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
+        context = super().get_context_data(**kwargs) 
         context = KTLayout.init(context)
         context['years'] = self.get_years()
         #context['months'] = self.get_month()
@@ -144,39 +143,7 @@ class UploadView(TemplateView):
         context['successful_files'] = self.get_successful_files()
         #context['selected_year'] = self.get(self.request)
 
-
-
         return context
-
-    def validate_file(self, file):
-        
-        # Check if the file extension is valid (Excel or CSV)
-        allowed_extensions = ['.xls', '.xlsx', '.csv']
-        file_name, file_extension = os.path.splitext(file.name)
-        #if file_extension.lower() not in allowed_extensions:
-            #raise ValueError("Invalid file format. Please upload an Excel (XLS or XLSX) or CSV file.")
-        if file_extension.lower() in ['.xls', '.xlsx']:
-            df = pd.read_excel(file)
-            return df
-        elif file_extension.lower() == '.csv':
-            df = pd.read_csv(file)
-            return df
-
-        required_columns = ['organisation','org_acronym','org_type','project_sector','activities','status','state','state_pcode','lga','lga_pcode','ward','month','year']
-
-        for column in required_columns:
-            missing_columns = [column for column in required_columns if column not in df.columns]
-
-        if missing_columns:
-            missing_columns_str = ', '.join(missing_columns)
-            return missing_columns_str
-            #raise ValueError(f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the colum in this format and upload again.")
-        else:
-            '''
-            context = self.get_context_data()
-            context['uploaded-table'] = df_html'''
-
-            return file 
     
     
     def post(self, request, *args, **kwargs):
@@ -195,9 +162,13 @@ class UploadView(TemplateView):
                 instance.month = month_instance
 
                 try:
-                    self.validate_and_save_file(instance, request)
+                    df = self.validate_and_save_file(instance, request)
 
                     context = self.get_context_data()
+                    df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+                    context['df_html'] = df_html
+
+
                     return render(request, self.template_name, context)
 
                 except ValueError as e:
@@ -227,10 +198,9 @@ class UploadView(TemplateView):
         try:
             if instance.file.name.endswith('.xlsx') or instance.file.name.endswith('.xls'):
                 df = pd.read_excel(instance.file)
+                
             elif instance.file.name.endswith('.csv'):
                 df = pd.read_csv(instance.file)
-
-            #df = pd.read_excel(instance.file) or pd.read_csv(instance.file) 
 
             # Your header validation logic here
             required_columns = ['organisation', 'org_acronym', 'org_type']
@@ -240,8 +210,9 @@ class UploadView(TemplateView):
                 missing_columns_str = ', '.join(missing_columns)
                 messages.error(request, f"The file is missing the following required columns: {missing_columns_str}. Please verify the file or rename the columns in this format and upload again.")
 
-                df_html = df.to_html(classes='table table-bordered table-striped table-hover')
-                return HttpResponse(df_html)
+                #df_html = df.to_html(classes='table table-bordered table-striped table-hover')
+                
+                return df
 
 
 
@@ -250,10 +221,9 @@ class UploadView(TemplateView):
                 instance.save()
                 df_html = df.to_html(classes='table table-bordered table-striped table-hover')
 
-                context = self.get_context_data()
-                context['df_html'] = df_html
-                return render(request, self.template_name, context)
-
+                #context = self.get_context_data()
+                #context['df_html'] = df_html
+                return df
 
         except pd.errors.EmptyDataError:
             messages.error(request, "The Excel file is empty.")
@@ -278,12 +248,6 @@ class UploadView(TemplateView):
 
         return years
     
-
-    #def get_month(self):
-
-        #months = Month.objects.filter(year__year_number = 2020)
-            
-        #return months
 
     
 class UploadView1(TemplateView):
